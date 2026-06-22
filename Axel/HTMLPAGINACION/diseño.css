@@ -1,0 +1,191 @@
+/* ==========================================================================
+   1. Reset de Estilos y Variables Globales
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f7;
+    color: #2c3e50;
+    line-height: 1.6;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   2. Header Principal y Navegación
+   ========================================================================== */
+body > header {
+    background-color: #1a252f;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body > header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+nav ul li h3 {
+    font-size: 1.1rem;
+    color: #3498db;
+    font-weight: 500;
+}
+
+nav ul li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   3. Contenedor Principal (Main) y Contenido
+   ========================================================================== */
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+main header h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #34495e;
+    padding-bottom: 8px;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+section {
+    margin-bottom: 35px;
+}
+
+section h3 {
+    color: #34495e;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+/* Estilos de la Biografía (Alineación de Imagen y Texto) */
+section img {
+    float: left;
+    width: 180px;
+    height: auto;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Limpieza de flotados para que las secciones no se encimen */
+section::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Listas de Novelas y Ensayos */
+section ul {
+    list-style-position: inside;
+    margin-bottom: 20px;
+    background-color: #fafbfc;
+    padding: 15px 20px;
+    border-left: 4px solid #7f8c8d;
+    border-radius: 0 4px 4px 0;
+}
+
+section ul li {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* Enlaces del cuerpo */
+main a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   4. Tabla de Datos
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #34495e;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* ==========================================================================
+   5. Footer / Pie de Página
+   ========================================================================== */
+footer {
+    max-width: 900px;
+    margin: 20px auto 0 auto;
+    padding: 20px;
+    background-color: #eaeded;
+    border-top: 3px solid #bdc3c7;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Estilo para resaltar los roles en los metadatos */
+footer p::first-letter {
+    font-weight: bold;
+    color: #2c3e50;
+}
