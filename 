@@ -1,0 +1,108 @@
+[33mcommit 1f43bad2403d7eeed80ec7f4f14647d3fd61fc44[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: bfa0753 44e8ffe
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Tue Jun 23 10:52:51 2026 -0600
+
+    Merge branch 'TestError'
+
+[33mcommit bfa07538a84c711d94ff8a1b8f073ec9cafe6f7f[m
+Merge: 016de9e 9ce8b44
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Tue Jun 23 08:58:20 2026 -0600
+
+    merge test
+
+[33mcommit 016de9eccca5a63e8ffcb8a5b698b14eec893537[m
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Tue Jun 23 08:52:14 2026 -0600
+
+    Merge error test
+
+[33mcommit 44e8ffe924558bc0282064ef07a73034987518c3[m[33m ([m[1;31morigin/TestError[m[33m, [m[1;32mTestError[m[33m)[m
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Tue Jun 23 08:48:19 2026 -0600
+
+    first commit branch
+
+[33mcommit 9ce8b4496eef4f2672bfa83786316ba002642a7f[m
+Merge: 5983d50 091db50
+Author: Axel Edrey Zaragoza Bravo <axeledrey05@gmail.com>
+Date:   Mon Jun 22 10:54:51 2026 -0600
+
+    Merge pull request #1 from villarrealAG/Ramita1
+    
+    La Merge
+
+[33mcommit c5957b973342712b7f47f5832d4872b52a765097[m
+Merge: 5983d50 091db50
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Mon Jun 22 10:51:21 2026 -0600
+
+    Merge branch 'Ramita1'
+
+[33mcommit 091db50a263399c18cdb593e7cee68c1afaeceab[m[33m ([m[1;31morigin/Ramita1[m[33m)[m
+Author: axeledrey05-ux <axeledrey05@gmail.com>
+Date:   Mon Jun 22 10:37:19 2026 -0600
+
+    uwu
+
+[33mcommit 5983d5038ccf2dc1e804cdc9453592d1943d5627[m
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Mon Jun 22 10:37:16 2026 -0600
+
+    Fer view
+
+[33mcommit bf1d30f760d6e86a44a0df060bf4312520225204[m
+Author: axeledrey05-ux <axeledrey05@gmail.com>
+Date:   Mon Jun 22 10:29:58 2026 -0600
+
+    uwu
+
+[33mcommit ecc731217829a9ec18311cb70d6b2996506eafdd[m
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Mon Jun 22 10:27:25 2026 -0600
+
+    lil change
+
+[33mcommit d4b28d005f517c1ecf2a740d398293c26c86abf9[m
+Merge: 4b7e0fa fdffd73
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Mon Jun 22 10:06:12 2026 -0600
+
+    Merge branch 'main' of https://github.com/villarrealAG/ServiceActivities
+
+[33mcommit 4b7e0fab638bb346442a7daa14378f68bc2a01df[m
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Mon Jun 22 10:05:31 2026 -0600
+
+    Actualizacion pagina axel
+
+[33mcommit fdffd73f756801d2ddeaea1744bb7625234bc2bf[m
+Author: axeledrey05-ux <axeledrey05@gmail.com>
+Date:   Mon Jun 22 10:03:36 2026 -0600
+
+    Actualización de la página de Fer
+
+[33mcommit e581a8de736572b59c8e97f7c242d43889fab14f[m
+Author: VenaFer <ferxcocodrilo1029@gmail.com>
+Date:   Mon Jun 22 09:51:21 2026 -0600
+
+    Subida de html Fernando
+
+[33mcommit 8fc10a96db1ed4e02cecee66271aac4b8c2667bc[m
+Author: axeledrey05-ux <axeledrey05@gmail.com>
+Date:   Mon Jun 22 09:40:00 2026 -0600
+
+    Página para paginación
+
+[33mcommit feb7e6e4c1a2a785b0079e61736c74ff261139fc[m
+Author: villarrealAG <gusagustin@outlook.com>
+Date:   Mon Jun 22 08:55:00 2026 -0600
+
+    folders
+
+[33mcommit f13f187afaaf76e9c7714dcd2a085339bc8fd024[m
+Author: villarrealAG <gusagustin@outlook.com>
+Date:   Mon Jun 22 08:51:57 2026 -0600
+
+    first commit
