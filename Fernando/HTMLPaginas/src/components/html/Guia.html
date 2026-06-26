@@ -1,19 +1,52 @@
 <!DOCTYPE html>
-<head>
-    <title>Sitio Web Semántico</title>
-        <link rel="stylesheet" href="estilo.css">
+<html lang="es">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitio Web Semántico - Chatbot</title>
+    <!-- NES.css & Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/estilo.css">
 </head>
+
 <body>
-    <section>
-      <img src="https://imgs.search.brave.com/3c8R0DdTtvm2zLhh8T3ESrrImmEo_ZBumMpcT0vzXJw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMuZHJhZ29hcnQu/Y29tL2ltYWdlcy83/MDUwXzUwMS9ob3ct/dG8tZHJhdy1nYW5n/c3Rlci1idWdzLWJ1/bm55XzVlNGM4YTU0/NGI3N2I1LjUyOTI1/NzkwXzI5NjE0XzNf/NC5qcGc" width="300" height="300">
-    </section>
-    <section>
-        <input type="text"><button>Haz click aqui para enviar mensaje</button>
-    </section>
-    <section>
-        <p>Si no te responde le caes mal</p>
-    </section>
-    <a href="main.html"><img src="https://www.pngarts.com/files/8/Back-Button-Download-Transparent-PNG-Image.png" width="100" height="100"></a>
+
+    <main class="nes-container is-dark with-title" style="margin-top: 40px; max-width: 600px; width: 100%;">
+        <p class="title">Chatbot con Bugs Bunny</p>
+
+        <section style="text-align: center; margin-bottom: 20px;">
+            <img src="https://imgs.search.brave.com/3c8R0DdTtvm2zLhh8T3ESrrImmEo_ZBumMpcT0vzXJw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMuZHJhZ29hcnQu/Y29tL2ltYWdlcy83/MDUwXzUwMS9ob3ct/dG8tZHJhdy1nYW5n/c3Rlci1idWdzLWJ1/bm55XzVlNGM4YTU0/NGI3N2I1LjUyOTI1/NzkwXzI5NjE0XzNf/NC5qcGc" 
+                 alt="Gangster Bugs" width="300" height="300">
+        </section>
+
+        <!-- Globo de diálogo retro -->
+        <section class="nes-balloon from-left is-dark" style="margin-bottom: 30px;">
+            <p>¿Qué hay de nuevo, viejo? 🥕 Escribe tu mensaje abajo...</p>
+        </section>
+
+        <!-- Campo de entrada y botón de acción -->
+        <section style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
+            <div class="nes-field">
+                <label for="chat-input" style="color: #209cee; display: block; margin-bottom: 10px;">Mensaje:</label>
+                <input type="text" id="chat-input" class="nes-input is-dark" placeholder="Escribe aquí...">
+            </div>
+            <button type="button" class="nes-btn is-success">Haz click aquí para enviar</button>
+        </section>
+
+        <section style="text-align: center; margin-bottom: 30px;">
+            <p class="nes-text is-error">Si no te responde, le caes mal.</p>
+        </section>
+
+        <!-- Enlace de regreso -->
+        <section style="text-align: center;">
+            <a href="../../main.html" class="nes-btn is-error">
+                Regresar
+            </a>
+        </section>
+    </main>
+
 </body>
+
 </html>
