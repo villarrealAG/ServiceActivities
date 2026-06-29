@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arsenal - Ninja Gaiden</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="bg-armas">
     <header>
         <h1>El Legado de Ninja Gaiden</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Historia y Juegos</a></li>
                 <li><a href="armas.html">Arsenal Ninja</a></li>
-                <link rel="stylesheet" href="style.css">
             </ul>
         </nav>
     </header>
@@ -23,41 +23,34 @@
             <h2>Armamento de Ryu Hayabusa</h2>
             <p>Un ninja maestro debe adaptarse a cualquier situación. Esta tabla muestra
                 algunas de las armas más icónicas que Ryu utiliza a lo largo de su viaje:</p>
-            <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;
-border: 1px solid #cbd5e0;">
-                <thead style="background-color: #edf2f7;">
-                    <tr>
-                        <th align="left"><strong>Arma</strong></th>
-                        <th align="left"><strong>Tipo de Daño / Estilo</strong></th>
-                        <th align="left"><strong>Descripción</strong></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Espada del Dragón</td>
-                        <td>Corte Equilibrado</td>
-                        <td>Arma ancestral tallada del colmillo de un Dragón, perfecta para ataque
+            <div class="tabla-flex">
+                <div class="fila-flex encabezado">
+                    <div class="celda-flex"><strong>Arma</strong></div>
+                    <div class="celda-flex"><strong>Tipo de daño / Estilo</strong></div>
+                    <div class="celda-flex"><strong>Descripción</strong></div>
+                </div>
 
-                            y defensa ágil.</td>
-                    </tr>
-                    <tr style="background-color: #f7fafc;">
-                        <td>Vigoorian Flail</td>
-                        <td>Golpes Múltiples Rápidos</td>
-                        <td>Dos hoces unidas por una cadena. Ideal para abrumar enemigos ágiles
+                <div class="fila-flex">
+                    <div class="celda-flex">Espada del Dragón</div>
+                    <div class="celda-flex">Corte equilibrado</div>
+                    <div class="celda-flex">Arma ancestral tallada del colmillo de un Dragón, perfecta para ataque y
+                        defensa ágil</div>
+                </div>
 
-                            con combos altísimos.</td>
+                <div class="fila-flex rayado">
+                    <div class="celda-flex">Vigoorian Flail</div>
+                    <div class="celda-flex">Golpes multiples Rapidos</div>
+                    <div class="celda-flex">Dos hoces unidas por una cadena. Ideal para abrumar enemigos ágiles con
+                        combos altísimos.</div>
+                </div>
 
-                    </tr>
-                    <tr>
-                        <td>Báculo Lunar</td>
-                        <td>Contundente / Alcance</td>
-                        <td>Un pesado bastón que cambia sus pesos internos en combate,
-
-                            excelente para aturdir y controlar multitudes.</td>
-
-                    </tr>
-                </tbody>
-            </table>
+                <div class="fila-flex">
+                    <div class="celda-flex">Baculo lunar</div>
+                    <div class="celda-flex">Pesado/Largo alcance</div>
+                    <div class="celda-flex">Un pesado bastón que cambia sus pesos internos en combate, excelente para
+                        aturdir y controlar multitudes.</div>
+                </div>
+            </div>
         </section>
     </main>
     <footer>
