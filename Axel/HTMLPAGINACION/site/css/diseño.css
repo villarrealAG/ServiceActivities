@@ -1,196 +1,135 @@
-/* ==========================================================================
-   1. RESET Y ESTILOS GENERALES
-   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Evita que el grosor del marco deforme las cajas */
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
     background-color: #f7f9fa;
     color: #2b2b2b;
-    line-height: 1.6;
+    padding: 20px; /* Despega todo el contenido de los bordes de la pantalla */
 }
 
-main {
-    max-width: 900px;
-    margin: 0 auto;
+.encabezado, 
+.pie-de-pagina {
+    border: 3px solid #8f5077; /* Un marco sólido color púrpura de 3px */
+    padding: 20px;             /* Espacio interno para que el texto no choque con el marco */
+    margin-bottom: 20px;       /* Separa cada marco del siguiente hacia abajo */
+    background-color: #ffffff; /* Fondo blanco para resaltar las cajas */
+}
+
+.biografía, 
+.lista-obras,
+.tabla-obras {
+    border: 3px solid #8f5077;
     padding: 20px;
-}
-
-/* Título de la sección principal */
-main header h2 {
-    text-align: center;
-    color: #8f5077;
-    margin-bottom: 25px;
-    font-size: 32px;
-}
-
-/* ==========================================================================
-   2. ENCABEZADO (Flexbox dinámico)
-   ========================================================================== */
-.encabezado {
-    width: 100%;
+    margin-bottom: 20px;       
     background-color: #ffffff;
-    padding: 20px 40px;
+    width: 45%;
+}
+
+.contenedor {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    width: 100%;
+    align-items: center; /* Sirve para alinear los contenidos, en la primera línea, en el centro, etc */
+    justify-content: space-around; /* Esto sería como el tema del espaciado entre objetos, el de space around les da una separación exacta de bordes y de borde entre items */
 }
 
+/* Encabezado y Menú */
 .encabezado h1 {
-    font-size: 28px;
     color: #8f5077;
+    margin-top: 10px;
 }
 
-/* Estilos de la navegación del menú */
 .encabezado nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    align-items: center;
+    list-style: none; /* Quita los puntos de la lista del menú */
 }
 
-.encabezado nav h3 {
-    font-size: 16px;
-    color: #666;
-    font-weight: normal;
+.encabezado nav ul li {
+    display: inline-block; /* Pone los elementos del menú uno al lado del otro */
+    margin-right: 15px;
 }
 
 .encabezado a {
-    color: #8f5077;
+    color: #ca0606;
     text-decoration: none;
-    font-size: 16px;
     font-weight: bold;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
 }
 
-.encabezado a:hover {
-    color: #ca0606;
-    border-bottom: 2px solid #ca0606;
-}
-
-/* ==========================================================================
-   3. SECCIÓN BIOGRAFÍA (Imagen al lado del texto si hay espacio)
-   ========================================================================== */
-.biografía {
-    background-color: #ffffff;
-    border-left: 5px solid #8f5077; /* Cambié el borde total por uno de acento */
-    padding: 50px 30px;
-    margin-bottom: 30px;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-}
-
-.biografía h3 {
-    margin-bottom: 15px;
-    color: #8f5077;
-}
-
+/* Biografía (Imagen básica) */
 .biografía img {
-    float: left; /* Hace que el texto fluya alrededor de la imagen */
-    margin: 0 20px 10px 0;
+    display: block;
     width: 150px;
-    height: auto;
-    border-radius: 4px;
-    border: 2px solid #ddd;
+    margin: 15px 0;
 }
 
-/* Limpiar el flujo del flotado para los párrafos de abajo */
-.biografía p {
-    margin-bottom: 15px;
-}
-
-.biografía a {
-    color: #ca0606;
-    text-decoration: underline;
-    font-size: 16px;
-}
-
-/* ==========================================================================
-   4. LISTA DE OBRAS (Columnas lado a lado)
-   ========================================================================== */
-.lista-obras {
-    background-color: #f2f2f2;
-    border: 2px solid #e0e0e0;
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    display: flex; /* Pone la lista de novelas al lado de los ensayos */
-    justify-content: space-around;
-}
-
+/* Listas de Obras */
 .lista-obras ul {
-    list-style-position: inside; /* Mantiene los puntitos dentro de la caja */
+    margin-bottom: 15px;
+    padding-left: 20px; /* Deja espacio para que se vean las viñetas */
 }
 
 .lista-obras h3 {
-    color: #8f5077;
-    margin-bottom: 10px;
+    margin-left: -20px; /* Alinea el título de la lista con el texto */
+    margin-bottom: 5px;
 }
 
-.lista-obras li {
-    margin-bottom: 8px;
-}
-
-.lista-obras .sub-lista {
-    margin-left: 20px; /* Indenta la sub-lista de ensayos */
-    list-style-type: square; /* Cambia el estilo de los puntos */
-}
-
-/* ==========================================================================
-   5. TABLA DE OBRAS (Estilo Profesional)
-   ========================================================================== */
-.tabla-obras {
-    margin-bottom: 40px;
-    overflow-x: auto; /* Por si se abre en celular */
-}
-
-.tabla-obras table {
+/* Tabla de Obras */
+table {
     width: 100%;
-    border-collapse: collapse; /* Quita los espacios dobles entre bordes */
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-collapse: collapse; /* Une los bordes internos */
 }
 
-/* El encabezado de la tabla se queda con tu color rojo */
-.tabla-obras th {
-    background-color: #a95eac94;
-    color: #ffffff;
-    padding: 15px;
+th, td {
+    border: 1px solid #2b2b2b; /* Líneas divisorias de la tabla */
+    padding: 8px;
     text-align: left;
-    font-size: 18px;
 }
 
-.tabla-obras td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eeeeee;
-}
-
-/* Efecto cebra: filas alternas de color gris muy claro */
-.tabla-obras tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* ==========================================================================
-   6. PIE DE PÁGINA
-   ========================================================================== */
-.pie-de-pagina {
-    background-color: #222222; /* Cambié a gris oscuro para contrastar con la tabla */
+th {
+    background-color: #8f5077;
     color: #ffffff;
-    padding: 30px;
-    text-align: center;
-    font-size: 14px;
-    border-top: 4px solid #ca0606; /* El acento rojo va en el borde superior */
 }
 
 .pie-de-pagina p {
-    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   MENÚ DE NAVEGACIÓN HORIZONTAL (Con Marcos)
+   ========================================================================== */
+
+/* EL PADRE: Convierte la lista en una fila horizontal */
+.menu ul {
+    display: flex;               /* 👈 Pone el h3 y el enlace en fila */
+    align-items: center;         /* Centra verticalmente el texto y el botón */
+    justify-content: space-between; /* Empuja el título a la izquierda y el link a la derecha */
+    list-style: none;            /* Quita el puntito negro de la lista */
+    
+    border: 3px solid #8f5077;   /* Marco púrpura del contenedor del menú */
+    padding: 15px 20px;
+    background-color: #ffffff;
+}
+
+/* LOS HIJOS: Las cajitas de cada elemento de la lista */
+.menu li {
+    border: 2px solid #ca0606;   /* Marco rojo para ver cada sección del menú */
+}
+
+/* El título interno (Esta es la página 1) */
+.menu h3 {
+    color: #2b2b2b;
+    padding: 10px;
+}
+
+/* El enlace interactivo (Página 2) */
+.menu a {
+    display: block;              /* Hace que todo el cuadro rojo sea clickeable */
+    padding: 10px 15px;          /* Le da volumen al botón */
+    color: #8f5077;
+    text-decoration: none;       /* Quita el subrayado */
+    font-weight: bold;
 }
