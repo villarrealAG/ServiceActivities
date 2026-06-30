@@ -1,50 +1,152 @@
 <!DOCTYPE html>
-
-<head>
-    <title>Sitio Web Semántico</title>
-        <link rel="stylesheet" href="../css/estilo.css">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitio Web Semántico - Chatbot</title>
-    <!-- NES.css & Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet">
+    <title>Lista de Juegos</title>
     <link rel="stylesheet" href="../css/estilo.css">
-</head>
+    <style>
+        body {
+            font-family: Lato, sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            overflow-x: auto;
+        }
+     
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        th {
+            color: #ffffff;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            background-color: #000000; /* Color de fondo */
+            color: white;             /* Color del texto */
+        }
+       
+        .movie-poster {
+            width: 90px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        /* Estilos para los textos de meta información */
+        .movie-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+        .meta-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .rating-badge-good {
+            display: inline-block;
+            background-color: #38ffbd;
+            color: white;
+            padding: 3px 7px;
+            font-weight: bold;
+            font-size: 17px;
+        }
+        .rating-badge-medium {
+            display: inline-block;
+            background-color: #ffea70;
+            color: white;
+            padding: 3px 7px;
+            font-weight: bold;
+            font-size: 17px;
+        }
+        .rating-badge-bad {
+            display: inline-block;
+            background-color: #ff3838;
+            color: white;
+            padding: 3px 7px;
+            font-weight: bold;
+            font-size: 17px;
+        }
 
+    </style>
+</head>
 <body>
 
-    <main class="nes-container is-dark with-title" style="margin-top: 40px; max-width: 600px; width: 100%;">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Caratula</th>
+                    <th>Videojuego</th>
+                    <th>Historia</th>
+                    <th>Gameplay</th>
+                    <th>Soundtrack</th>
+                    <th>Visuales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="poster-cell">
+                        <img src="https://duracionde.com/storage/images/666ed4f25b62f.jpg" alt="Psychopomp" class="movie-poster">
+                    </td>
+                    <td>
+                        <div class="movie-title">Psychopomp</div>
+                        <div class="meta-text">
+                            <strong>Estudio:</strong>    Fading Club<br>
+                            <strong>Género:</strong> Terror psicologico, Horror game<br>
+                        </div>
+                    </td>
+                    <td><span class="rating-badge-good">9.5</span></td>
+                    <td><span class="rating-badge-medium">6 </span></td>
+                    <td><span class="rating-badge-good">9.8</span></td>
+                    <td><span class="rating-badge-good">9.5</span></td>
+                </tr>
 
-        <section style="text-align: center; margin-bottom: 20px;">
-            <img src="https://imgs.search.brave.com/3c8R0DdTtvm2zLhh8T3ESrrImmEo_ZBumMpcT0vzXJw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMuZHJhZ29hcnQu/Y29tL2ltYWdlcy83/MDUwXzUwMS9ob3ct/dG8tZHJhdy1nYW5n/c3Rlci1idWdzLWJ1/bm55XzVlNGM4YTU0/NGI3N2I1LjUyOTI1/NzkwXzI5NjE0XzNf/NC5qcGc" width="300" height="300">
-        </section>
+                <tr>
+                    <td class="poster-cell">
+                        <img src="https://ewingsvoice.com/wp-content/uploads/2019/11/480274-celeste-nintendo-switch-front-cover.jpg" alt="Celeste" class="movie-poster">
+                    </td>
+                    <td>
+                        <div class="movie-title">Celeste</div>
+                        <div class="meta-text">
+                            <strong>Estudio:</strong> Maddy Makes Games<br>
+                            <strong>Género:</strong> Plataformero<br>
+                        </div>
+                    </td>
+                    <td><span class="rating-badge-good">8.7</span></td>
+                    <td><span class="rating-badge-good">9.9</span></td>
+                    <td><span class="rating-badge-good">8.7</span></td>
+                    <td><span class="rating-badge-good">9</span></td>
+                </tr>
 
-        <!-- Globo de diálogo rero -->
-        <section class="nes-balloon from-left is-dark" style="margin-bottom: 30px;">
-            <p>¿Qué hay de nuevo, viejo? </p>
-        </section>
-
-        <section style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
-            <div class="nes-field">
-                <label for="chat-input" style="color: #209cee; display: block; margin-bottom: 10px;">Mensaje:</label>
-                <input type="text" id="chat-input" class="nes-input is-dark" >
-            </div>
-            <button type="button" class="nes-btn is-success">Enviar</button>
-        </section>
-
-        <section style="text-align: center; margin-bottom: 30px;">
-            <p class="nes-text is-error">Si no te responde, le caes mal.</p>
-        </section>
-
-        <section style="text-align: center;">
-            <a href="../../main.html" class="nes-btn is-error">
-                Regresar
-            </a>
-        </section>
-    </main>
+                <tr>
+                    <td class="poster-cell">
+                        <img src="https://m.media-amazon.com/images/M/MV5BNjQ1MDcxNTAtYjQ1ZS00YWY1LWEwNDctMGZlMWFmNzBkYjg3XkEyXkFqcGc@._V1_.jpg" alt="Interstellar" class="movie-poster">
+                    </td>
+                    <td>
+                        <div class="movie-title">Awaria</div>
+                        <div class="meta-text">
+                            <strong>Estudio</strong> Vanripper<br>
+                            <strong>Género:</strong> Puzzle<br>
+                        </div>
+                    </td>
+                    <td><span class="rating-badge-medium">5</span></td>
+                    <td><span class="rating-badge-good">9.5</span></td>
+                    <td><span class="rating-badge-good">9</span></td>
+                    <td><span class="rating-badge-good">9.9</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="../../main.html">Hola</a>
+    </div>
 
 </body>
-
 </html>

@@ -1,4 +1,6 @@
 body {
+    font-family: 'Carlitine', sans-serif;
+    text-wrap: wrap;
     font-size: 20px; 
     display: flex;
     flex-direction: column;
@@ -17,16 +19,20 @@ header h1 img:hover {transform: scale(1.08);}
 img {width: 100px;height: 100px;object-fit: cover;}
 
 .card-minimal {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 10px;
-  border: 4px solid #122446;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-  color: #000000;
+  background: rgba(255, 255, 255, 0.175);
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.161);
+
+  border-radius: 16px; /* Esquinas ligeramente más suaves y modernas */
+  padding: 20px; /* Más aire interno para que el contenido respire */
+  box-shadow: 0 10px 25px rgba(18, 36, 70, 0.08), 0 3px 10px rgba(0, 0, 0, 0.04); /* Sombra elegante y profunda usando el color de tu identidad */
+  color: #ffffff; 
+
+          font-family: 'Carlitine', sans-serif;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: center;  
 }
 .card-pro {
   background-color: #3e3b53;
@@ -36,8 +42,8 @@ img {width: 100px;height: 100px;object-fit: cover;}
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 10px;
 }
-
 .lista-moderna {  
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: rgba(255, 255, 255, 0.08);
@@ -48,25 +54,133 @@ img {width: 100px;height: 100px;object-fit: cover;}
     margin: 0 auto;
     display: inline-flex;
 }
-
 .lista-moderna li {
     display: flex;
 }
-
 .lista-moderna li a {
-    color: rgba(255, 255, 255, 1);
+    color:  rgb(199, 199, 199);
     text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
     padding: 8px 16px;
     border-radius: 50px;
 }
-
 .lista-moderna li a:hover {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
 }
+.contenedor-tarjetas {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 10px;             
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px 0;
+}
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c3e50;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #f1f2f6;
+        }
+        .section-title {
+            background-color: #bdc3c7;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .rating {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
 
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Ficha y Calificación: Inception (2010)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="section-title" colspan="2">Meta Información</td>
+            </tr>
+            <tr>
+                <td><strong>Director:</strong></td>
+                <td>Christopher Nolan</td>
+            </tr>
+            <tr>
+                <td><strong>Género:</strong></td>
+                <td>Ciencia Ficción / Acción / Suspenso</td>
+            </tr>
+            <tr>
+                <td><strong>Duración:</strong></td>
+                <td>148 minutos</td>
+            </tr>
+            <tr>
+                <td><strong>Año de Estreno:</strong></td>
+                <td>2010</td>
+            </tr>
+            <tr>
+                <td><strong>Protagonistas:</strong></td>
+                <td>Leonardo DiCaprio, Elliot Page, Joseph Gordon-Levitt</td>
+            </tr>
 
+            <tr>
+                <td class="section-title" colspan="2">Calificación por Rubros</td>
+            </tr>
+            <tr>
+                <td><strong>Guion y Trama:</strong></td>
+                <td class="rating">9.5 / 10</td>
+            </tr>
+            <tr>
+                <td><strong>Actuaciones:</strong></td>
+                <td class="rating">8.8 / 10</td>
+            </tr>
+            <tr>
+                <td><strong>Efectos Visuales:</strong></td>
+                <td class="rating">9.8 / 10</td>
+            </tr>
+            <tr>
+                <td><strong>Banda Sonora:</strong></td>
+                <td class="rating">9.6 / 10</td>
+            </tr>
+            <tr>
+                <td><strong>Dirección:</strong></td>
+                <td class="rating">9.7 / 10</td>
+            </tr>
+        </tbody>
+    </table>
 
+</body>
