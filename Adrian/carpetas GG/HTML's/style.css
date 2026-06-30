@@ -1,16 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 /*Diseño de los parrafos*/
 p {
-    color: rgb(198, 130, 254);
+    font-family: "Montserrat", sans-serif;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /*Diseño del box-shadow*/
 .box-shadow {
-    font-family: cursive, sans-serif;
-    background-color: rgb(117, 4, 238);
+    font-family: sans-serif;
+    background-color: rgba(0, 0, 0, 0.6);
     color: white;
     padding: 10px;
     border-radius: 4px;
-    box-shadow: 2px 2px 20px 23px rgb(117, 4, 238);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /*Diseño de la tabla*/
@@ -69,6 +75,7 @@ header {
 }
 
 header h1 {
+    font-family: "Cinzel", serif;
     font-size: 3rem;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -117,4 +124,28 @@ nav a:hover {
     color: white;
     box-shadow: 0 0 15px rgba(200, 211, 255, 0.6);
     transform: translateY(-3px);
+}
+
+/* Contenedor principal de contenido */
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    /* Centra horizontalmente y da espacio vertical */
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    /* Fondo semitransparente para legibilidad */
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/*Seccion de imagen*/
+main img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin: 20px 0;
+    display: block;
 }
