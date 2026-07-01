@@ -1,152 +1,167 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Juegos</title>
-    <link rel="stylesheet" href="../css/estilo.css">
-    <style>
-        body {
-            font-family: Lato, sans-serif;
-            color: #333;
-            padding: 20px;
-        }
-        .table-container {
-            width: 100%;
-            max-width: 1000px;
-            margin: 20px auto;
-            overflow-x: auto;
-        }
-     
-        th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            vertical-align: top;
-        }
-        th {
-            color: #ffffff;
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            background-color: #000000; /* Color de fondo */
-            color: white;             /* Color del texto */
-        }
-       
-        .movie-poster {
-            width: 90px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        /* Estilos para los textos de meta información */
-        .movie-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 4px;
-        }
-        .meta-text {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.4;
-        }
-        .rating-badge-good {
-            display: inline-block;
-            background-color: #38ffbd;
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lista de Juegos</title>
+        <link rel="stylesheet" href="../css/estilo.css">
+        <style>
+            a{
+            padding: 10px 20px;
+            background-color: #6f3782;  
             color: white;
-            padding: 3px 7px;
-            font-weight: bold;
-            font-size: 17px;
-        }
-        .rating-badge-medium {
-            display: inline-block;
-            background-color: #ffea70;
-            color: white;
-            padding: 3px 7px;
-            font-weight: bold;
-            font-size: 17px;
-        }
-        .rating-badge-bad {
-            display: inline-block;
-            background-color: #ff3838;
-            color: white;
-            padding: 3px 7px;
-            font-weight: bold;
-            font-size: 17px;
-        }
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            }
+            body {
+                font-family: Lato, sans-serif;
+                color: #333;
+                padding: 20px;
+            }
+            .table-container {
+                width: 100%;
+                max-width: 1000px;
+                margin: 20px auto;
+                overflow-x: auto;
+                
+            }
+        
+            th, td {
+                background: rgba(255, 255, 255, 0.064);
+                backdrop-filter: blur(2px);
+                padding: 12px 15px;
+                border-bottom: 1px solid #e0e0e0;
+                vertical-align: top;
+            }
+            th {
+                text-transform: uppercase;
+                font-size: 13px;
+                letter-spacing: 0.5px;
+                background-color: #000000; /* Color de fondo */
+                color: white;             /* Color del texto */
+            }
+        
+            .movie-poster {
+                width: 90px;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            }
+            .movie-title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 4px;
+            }
+            .meta-text {
+                font-size: 13px;
+                color: #666;
+                line-height: 1.4;
+            }
+            .rating-badge-good {
+                display: inline-block;
+                background-color: #00b649;
+                color: white;
+                padding: 3px 7px;
+                font-weight: bold;
+                font-size: 17px;
+            }
+            .rating-badge-medium {
+                display: inline-block;
+                background-color: #fbdc2e;
+                color: white;
+                padding: 3px 7px;
+                font-weight: bold;
+                font-size: 17px;
+            }
+            .rating-badge-bad {
+                display: inline-block;
+                background-color: #ff3838;
+                color: white;
+                padding: 3px 7px;
+                font-weight: bold;
+                font-size: 17px;
+            }
 
-    </style>
-</head>
-<body>
+        </style>
+    </head>
+    <body>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Caratula</th>
-                    <th>Videojuego</th>
-                    <th>Historia</th>
-                    <th>Gameplay</th>
-                    <th>Soundtrack</th>
-                    <th>Visuales</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="poster-cell">
-                        <img src="https://duracionde.com/storage/images/666ed4f25b62f.jpg" alt="Psychopomp" class="movie-poster">
-                    </td>
-                    <td>
-                        <div class="movie-title">Psychopomp</div>
-                        <div class="meta-text">
-                            <strong>Estudio:</strong>    Fading Club<br>
-                            <strong>Género:</strong> Terror psicologico, Horror game<br>
-                        </div>
-                    </td>
-                    <td><span class="rating-badge-good">9.5</span></td>
-                    <td><span class="rating-badge-medium">6 </span></td>
-                    <td><span class="rating-badge-good">9.8</span></td>
-                    <td><span class="rating-badge-good">9.5</span></td>
-                </tr>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caratula</th>
+                        <th>Videojuego</th>
+                        <th>Historia</th>
+                        <th>Gameplay</th>
+                        <th>Soundtrack</th>
+                        <th>Visuales</th>
+                        <th>Disfrute</th>
 
-                <tr>
-                    <td class="poster-cell">
-                        <img src="https://ewingsvoice.com/wp-content/uploads/2019/11/480274-celeste-nintendo-switch-front-cover.jpg" alt="Celeste" class="movie-poster">
-                    </td>
-                    <td>
-                        <div class="movie-title">Celeste</div>
-                        <div class="meta-text">
-                            <strong>Estudio:</strong> Maddy Makes Games<br>
-                            <strong>Género:</strong> Plataformero<br>
-                        </div>
-                    </td>
-                    <td><span class="rating-badge-good">8.7</span></td>
-                    <td><span class="rating-badge-good">9.9</span></td>
-                    <td><span class="rating-badge-good">8.7</span></td>
-                    <td><span class="rating-badge-good">9</span></td>
-                </tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="poster-cell">
+                            <img src="https://duracionde.com/storage/images/666ed4f25b62f.jpg" alt="Psychopomp" class="movie-poster">
+                        </td>
+                        <td>
+                            <div class="movie-title">Psychopomp</div>
+                            <div class="meta-text">
+                                <strong>Estudio:</strong>    Fading Club<br>
+                                <strong>Género:</strong> Terror psicologico, Horror game<br>
+                            </div>
+                        </td>
+                        <td><span class="rating-badge-good">9.5</span></td>
+                        <td><span class="rating-badge-medium">6 </span></td>
+                        <td><span class="rating-badge-good">9.8</span></td>
+                        <td><span class="rating-badge-good">9.5</span></td>
+                        <td><span class="rating-badge-good">10</span></td>
 
-                <tr>
-                    <td class="poster-cell">
-                        <img src="https://m.media-amazon.com/images/M/MV5BNjQ1MDcxNTAtYjQ1ZS00YWY1LWEwNDctMGZlMWFmNzBkYjg3XkEyXkFqcGc@._V1_.jpg" alt="Interstellar" class="movie-poster">
-                    </td>
-                    <td>
-                        <div class="movie-title">Awaria</div>
-                        <div class="meta-text">
-                            <strong>Estudio</strong> Vanripper<br>
-                            <strong>Género:</strong> Puzzle<br>
-                        </div>
-                    </td>
-                    <td><span class="rating-badge-medium">5</span></td>
-                    <td><span class="rating-badge-good">9.5</span></td>
-                    <td><span class="rating-badge-good">9</span></td>
-                    <td><span class="rating-badge-good">9.9</span></td>
-                </tr>
-            </tbody>
-        </table>
-        <a href="../../main.html">Hola</a>
-    </div>
+                    </tr>
 
-</body>
-</html>
+                    <tr>
+                        <td class="poster-cell">
+                            <img src="https://ewingsvoice.com/wp-content/uploads/2019/11/480274-celeste-nintendo-switch-front-cover.jpg" alt="Celeste" class="movie-poster">
+                        </td>
+                        <td>
+                            <div class="movie-title">Celeste</div>
+                            <div class="meta-text">
+                                <strong>Estudio:</strong> Maddy Makes Games<br>
+                                <strong>Género:</strong> Plataformero<br>
+                            </div>
+                        </td>
+                        <td><span class="rating-badge-good">8.7</span></td>
+                        <td><span class="rating-badge-good">9.9</span></td>
+                        <td><span class="rating-badge-good">8.7</span></td>
+                        <td><span class="rating-badge-good">9</span></td>
+                        <td><span class="rating-badge-good">9.5</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="poster-cell">
+                            <img src="https://m.media-amazon.com/images/M/MV5BNjQ1MDcxNTAtYjQ1ZS00YWY1LWEwNDctMGZlMWFmNzBkYjg3XkEyXkFqcGc@._V1_.jpg" alt="Interstellar" class="movie-poster">
+                        </td>
+                        <td>
+                            <div class="movie-title">Awaria</div>
+                            <div class="meta-text">
+                                <strong>Estudio</strong> Vanripper<br>
+                                <strong>Género:</strong> Puzzle<br>
+                            </div>
+                        </td>
+                        <td><span class="rating-badge-medium">5</span></td>
+                        <td><span class="rating-badge-good">9.5</span></td>
+                        <td><span class="rating-badge-good">9</span></td>
+                        <td><span class="rating-badge-good">9.9</span></td>
+                        <td><span class="rating-badge-good">9</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="../../main.html">Volver</a>
+
+    </body>
+    </html>
