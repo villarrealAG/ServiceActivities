@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-image: url("../assets/fondo.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+/* ==========================================================================
+   ESTILOS BASE: CELULAR (PANTALLAS CHICAS)
+   ========================================================================== */
+header {
+    padding: 20px;
+    background-color: rgb(68, 6, 6);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column; /* Apila el contenido en vertical en celular */
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+header img {
+    height: 80px; /* Logos un poco más chicos en móvil */
+}
+
+.header-info {
+    text-align: center;
+}
+
+.header-info h1 {
+    font-size: 2.5rem;
+}
+
+.menu {
+    background-color: #333; 
+    padding: 10px 0;
+}
+
+.menu ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column; /* Menú vertical en celular */
+  align-items: center;
+  gap: 10px;
+}
+
+.menu ul li a {
+  font-size: 20px; /* Fuente más cómoda para pantallas chicas */
+  color: white;          
+  text-decoration: none; 
+  padding: 10px 15px;    
+  display: block;        
+}
+
+.menu ul li a:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+.Introducción {
+    text-align: center;
+    padding: 20px;
+}
+
+.Discos {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.Contacto {
+    text-align: center;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   BREAKPOINT: ESCRITORIO (PANTALLAS MEDIANAS / GRANDES desde 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+    header {
+        flex-direction: row; /* Cambia a formato horizontal */
+        justify-content: space-between;
+        height: 140px;
+    }
+
+    header img {
+        height: 100px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .header-info h1 {
+        font-size: 4rem; /* Equivalente al viejo size=8 */
+    }
+
+    .menu ul {
+        flex-direction: row; /* Menú horizontal en escritorio */
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .menu ul li a {
+        font-size: 30px;
+    }
+}
