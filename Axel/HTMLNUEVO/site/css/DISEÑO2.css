@@ -1,0 +1,207 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-image: url("../../assets/fondo.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+/* ==========================================================================
+   ESTILOS BASE: CELULAR (PANTALLAS CHICAS)
+   ========================================================================== */
+
+.Encabezado {
+    position: sticky; /* Mantiene el header visible al hacer scroll */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+header {
+    padding: 20px;
+    background-color: rgb(68, 6, 6);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column; /* Apila el contenido en vertical en celular */
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+header img {
+    height: 80px; /* Logos un poco más chicos en móvil */
+}
+
+.header-info {
+    text-align: center;
+}
+
+.header-info h1 {
+    font-size: 2.5rem;
+}
+
+.menu {
+    background-color: #333; 
+    padding: 10px 0;
+}
+
+.menu ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column; /* Menú vertical en celular */
+  align-items: center;
+  gap: 10px;
+}
+
+.menu ul li a {
+  font-size: 20px; /* Fuente más cómoda para pantallas chicas */
+  color: white;          
+  text-decoration: none; 
+  padding: 10px 15px;    
+  display: block;        
+}
+
+.menu ul li a:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+.Introducción, .Discos, .Contacto {
+    scroll-margin-top: 200px; 
+}
+
+.Introducción {
+    text-align: center;
+    padding: 20px;
+}
+
+.Discos {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;       /* Activa el envoltorio para que bajen en fila */
+    gap: 30px;             /* Separa los discos limpiamente en lugar de space-between */
+    margin: 1rem auto;
+    flex-direction: column; /* Por defecto, los discos se apilan en celular */
+}
+
+.Discos h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 3rem;
+}
+
+.decada {
+    margin-bottom: 40px; /* Espacio entre décadas */
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;      /* Permite que los discos bajen a la siguiente línea */
+    padding: 30px;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;             /* Espacio entre discos dentro de la misma década */
+}
+
+/* NUEVO: Este es el molde físico generado en tu JS que controla el tamaño del disco */
+.contenedor-tarjeta {
+    width: 600px;          /* Ajusta el ancho que quieras para tus discos */
+    height: 600px;         /* Ajusta el alto (300x300 los hace cuadrados como un vinilo) */
+    perspective: 1000px;   /* La perspectiva debe ir AQUÍ para que sea individual */
+    cursor: pointer;
+}
+
+.tarjeta-disco {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+/* CORREGIDO: Ahora solo gira la tarjeta sobre la que tienes el cursor puesto */
+.contenedor-tarjeta:hover .tarjeta-disco {
+    transform: rotateY(180deg);
+}
+
+.tarjeta-disco-frente, .tarjeta-disco-trasera {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;   /* Esquinas redondeadas parejas */
+    overflow: hidden;      /* Evita que la imagen del disco se salga de las esquinas */
+}
+
+.tarjeta-disco-frente {
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+/* Si tienes imágenes dentro del frente, asegurar que llenen el contenedor */
+.tarjeta-disco-frente img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.tarjeta-disco-trasera {
+    background: #8b5cf6;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.Contacto {
+    text-align: center;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   BREAKPOINT: ESCRITORIO (PANTALLAS MEDIANAS / GRANDES desde 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+    header {
+        flex-direction: row; /* Cambia a formato horizontal */
+        justify-content: space-between;
+        height: 140px;
+    }
+
+    header img {
+        height: 100px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .header-info h1 {
+        font-size: 4rem; /* Equivalente al viejo size=8 */
+    }
+
+    .menu ul {
+        flex-direction: row; /* Menú horizontal en escritorio */
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .menu ul li a {
+        font-size: 30px;
+    }
+}
