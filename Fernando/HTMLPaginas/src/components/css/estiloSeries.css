@@ -1,0 +1,147 @@
+            a{
+            height: 80px;
+            width: 80px;
+            padding: 10px 20px;
+            background-color: transparent;  
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center; /* Centra de forma horizontal */
+            align-items: center;
+            }
+            body {
+                font-family: Lato, sans-serif;
+                color: #ffffff;
+                padding: 20px;
+            }
+            /* ── Table container ── */
+.table-container {
+    width: 100%;
+    max-width: 1020px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.09);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    vertical-align: middle;
+    text-align: left;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td {
+    background: rgba(255, 255, 255, 0.07);
+    transition: background 0.2s ease;
+}
+
+th {
+    background: rgba(0, 0, 0, 0.55) !important;
+    color: rgba(180, 195, 240, 0.85);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 13px 18px;
+    white-space: nowrap;
+}
+        
+            .movie-poster {
+                width: 90px;
+                height: 120px;
+                perspective: 1000px;   /* perspectiva en el contenedor */
+                
+                flex-shrink: 0;
+            }
+            .movie-poster-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transition: transform 0.8s;
+                transform-style: preserve-3d;
+            }
+            /* Al hacer hover sobre el contenedor se rota el inner */
+            .movie-poster:hover .movie-poster-inner {
+                transform: rotateY(180deg);
+            }
+            .movie-poster-front, .movie-poster-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            .movie-poster-front img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+            .movie-poster-back {
+                background-color: transparent;
+                background-image: url(https://revolucion.news/cultura30/wp-content/uploads/2024/01/Plataformas-steaming.webp);
+                background-size: cover;
+                background-position: center;
+                filter: brightness(0.4);
+                color: rgb(255, 255, 255);
+                transform: rotateY(180deg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                text-align: center;
+                padding: 4px;
+            }
+            
+
+
+            .movie-title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #ffffff;
+                margin-bottom: 4px;
+            }
+            .meta-text {
+                font-size: 13px;
+                color: #848484;
+                line-height: 1.4;
+            }
+            .rating-badge-good {
+                display: inline-block;
+                background-color: #00b649;
+                color: white;
+                padding: 3px 7px;
+                font-weight: bold;
+                font-size: 17px;
+            }
+            .rating-badge-medium {
+                display: inline-block;
+                background-color: #fbdc2e;
+                color: white;
+                padding: 3px 7px;
+                font-weight: bold;
+                font-size: 17px;
+            }
+            .rating-badge-bad {
+                display: inline-block;
+                background-color: #ff3838;
+                color: white;
+                padding: 3px 7px;
+                font-weight: bold;
+                font-size: 17px;
+            }
+
+      

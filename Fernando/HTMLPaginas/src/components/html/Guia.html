@@ -5,135 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lista de Juegos</title>
         <link rel="stylesheet" href="../css/estilo.css">
-        <style>
-            a{
-            height: 80px;
-            width: 80px;
-            padding: 10px 20px;
-            background-color: transparent;  
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            justify-content: center; /* Centra de forma horizontal */
-            align-items: center;
-            }
-            body {
-                font-family: Lato, sans-serif;
-                color: #ffffff;
-                padding: 20px;
-            }
-            .table-container {
-                width: 100%;
-                max-width: 1000px;
-                margin: 20px auto;
-                overflow-x: auto;
-                
-            }
-        
-            th, td {
-                background: rgba(255, 255, 255, 0.064);
-                backdrop-filter: blur(2px);
-                padding: 12px 15px;
-                border-bottom: 1px solid #e0e0e0;
-                vertical-align: top;
-            }
-            th {
-                text-transform: uppercase;
-                font-size: 13px;
-                letter-spacing: 0.5px;
-                background-color: #000000; /* Color de fondo */
-                color: white;             /* Color del texto */
-            }
-        
-            .movie-poster {
-                width: 90px;
-                height: 120px;
-                perspective: 1000px;   /* perspectiva en el contenedor */
-                
-                flex-shrink: 0;
-            }
-            .movie-poster-inner {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                transition: transform 0.8s;
-                transform-style: preserve-3d;
-            }
-            /* Al hacer hover sobre el contenedor se rota el inner */
-            .movie-poster:hover .movie-poster-inner {
-                transform: rotateY(180deg);
-            }
-            .movie-poster-front, .movie-poster-back {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                backface-visibility: hidden;
-                border-radius: 4px;
-                overflow: hidden;
-            }
-            .movie-poster-front img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block;
-            }
-            .movie-poster-back {
-                background-color: transparent;
-                background-image: url(https://www.notebookcheck.org/fileadmin/Notebooks/News/_nc5/Steam-logo.jpg);
-                background-size: cover;
-                background-position: center;
-                filter: brightness(0.4);
-                color: rgb(255, 255, 255);
-                transform: rotateY(180deg);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 11px;
-                text-align: center;
-                padding: 4px;
-            }
-            
-
-
-            .movie-title {
-                font-size: 16px;
-                font-weight: bold;
-                color: #ffffff;
-                margin-bottom: 4px;
-            }
-            .meta-text {
-                font-size: 13px;
-                color: #848484;
-                line-height: 1.4;
-            }
-            .rating-badge-good {
-                display: inline-block;
-                background-color: #00b649;
-                color: white;
-                padding: 3px 7px;
-                font-weight: bold;
-                font-size: 17px;
-            }
-            .rating-badge-medium {
-                display: inline-block;
-                background-color: #fbdc2e;
-                color: white;
-                padding: 3px 7px;
-                font-weight: bold;
-                font-size: 17px;
-            }
-            .rating-badge-bad {
-                display: inline-block;
-                background-color: #ff3838;
-                color: white;
-                padding: 3px 7px;
-                font-weight: bold;
-                font-size: 17px;
-            }
-
-        </style>
+        <link rel="stylesheet" href="../css/estilo2.css">
     </head>
     <body>
 
@@ -159,7 +31,7 @@
                                     <div class="movie-poster-front">
                                         <img src="https://duracionde.com/storage/images/666ed4f25b62f.jpg" alt="Psychopomp">
                                     </div>
-                                    <div class="movie-poster-back"><a href="https://store.steampowered.com/app/2771670/Psychopomp/">Psychopomp</a></div>
+                                    <div class="movie-poster-back"><a href="https://store.steampowered.com/app/2771670/Psychopomp/" target="_blank">Psychopomp</a></div>
                                 </div>
                             </div>
                         </td>
@@ -186,7 +58,7 @@
                                     <div class="movie-poster-front">
                                         <img src="https://ewingsvoice.com/wp-content/uploads/2019/11/480274-celeste-nintendo-switch-front-cover.jpg" alt="Celeste">
                                     </div>
-                                    <div class="movie-poster-back"><a href="https://store.steampowered.com/app/504230/Celeste/">Celeste</a></div>
+                                    <div class="movie-poster-back"><a href="https://store.steampowered.com/app/504230/Celeste/" target="_blank">Celeste</a></div>
                                 </div>
                             </div>
                         </td>
@@ -211,7 +83,7 @@
                                     <div class="movie-poster-front">
                                         <img src="https://m.media-amazon.com/images/M/MV5BNjQ1MDcxNTAtYjQ1ZS00YWY1LWEwNDctMGZlMWFmNzBkYjg3XkEyXkFqcGc@._V1_.jpg" alt="Awaria">
                                     </div>
-                                    <div class="movie-poster-back"><a href="https://store.steampowered.com/app/3274300/Awaria/">Awaria</a></div>
+                                    <div class="movie-poster-back"><a href="https://store.steampowered.com/app/3274300/Awaria/" target="_blank" >Awaria </a></div>
                                 </div>
                             </div>
                         </td>
@@ -231,7 +103,6 @@
                 </tbody>
             </table>
         </div>
-        <a href="../../main.html">Volver</a>
-
+        <a href="../../main.html" class="aedit aedit-1">Regresar</a>
     </body>
     </html>
