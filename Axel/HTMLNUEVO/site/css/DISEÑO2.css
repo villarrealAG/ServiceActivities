@@ -54,34 +54,111 @@ header img {
     padding: 10px 0;
 }
 
+/* Menú principal */
 .menu ul {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column; /* Menú vertical en celular */
-  align-items: center;
-  gap: 10px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Menú vertical en celular */
+    align-items: center;
+    gap: 10px;
+}
+
+/* Contenedor del elemento con submenú */
+.menu ul li {
+    position: relative; /* Clave para que el submenú se posicione respecto a este botón */
+    width: 100%;        /* Ajuste para vista vertical */
+    text-align: center;
 }
 
 .menu ul li a {
-  font-size: 20px; /* Fuente más cómoda para pantallas chicas */
-  color: white;          
-  text-decoration: none; 
-  padding: 10px 15px;    
-  display: block;        
+    font-size: 20px; 
+    color: white;          
+    text-decoration: none; 
+    padding: 10px 15px;    
+    display: block;        
 }
 
 .menu ul li a:hover {
-  background-color: #555;
-  border-radius: 5px;
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* --- SUBMENÚ --- */
+.menu ul li .submenu {
+    display: none;        /* Oculto por defecto */
+    position: absolute;
+    top: 100%;           /* Se despliega justo abajo del botón */
+    left: 50%;
+    transform: translateX(-50%); /* Lo centra perfectamente */
+    background-color: #444;
+    padding: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+    z-index: 10;
+    width: 150px;         /* Un ancho fijo para los años */
+}
+
+/* Estilos de los enlaces del submenú */
+.menu ul li .submenu li a {
+    font-size: 16px;      /* Un poco más pequeño para jerarquía */
+    padding: 8px 15px;
+}
+
+/* EFECTO DESPLEGABLE: Al pasar el mouse por el LI, se muestra el submenú */
+.menu ul li:hover .submenu {
+    display: block;
 }
 
 .Introducción, .Discos, .Contacto {
     scroll-margin-top: 200px; 
 }
 
-.Introducción {
+.introduccion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    background-color: #2b0606c8; /* Un fondo oscuro profundo */
+    color: #ffffff;
     text-align: center;
-    padding: 20px;
+}
+
+.intro-content {
+    max-width: 650px; /* Evita que el texto se estire feo en pantallas grandes */
+}
+
+.intro-tag {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #888; /* Color discreto tipo marca de gama alta */
+    display: block;
+    margin-bottom: 15px;
+}
+
+.introduccion h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+/* El toque de color */
+.introduccion .highlight {
+    background: linear-gradient(120deg, #ff4500, #ff8c00); /* Un degradado cálido/musical */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.intro-lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #b3b3b3; /* Gris suave para que la lectura sea muy cómoda */
+    font-weight: 300;
 }
 
 .Discos {
@@ -110,6 +187,12 @@ header img {
     align-items: center;
     justify-content: center;
     gap: 30px;             /* Espacio entre discos dentro de la misma década */
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    scroll-margin-top: 230px; /* Ajusta el margen superior para el scroll */
 }
 
 /* NUEVO: Este es el molde físico generado en tu JS que controla el tamaño del disco */
@@ -158,21 +241,66 @@ header img {
     object-fit: cover; 
 }
 
+/* 1. Definir la animación */
+@keyframes rotar-sobre-eje {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tarjeta-disco-trasera .disco-contraportada {
+    animation: rotar-sobre-eje 10s linear infinite; /* 20 segundos para una rotación completa */
+}
+
 .tarjeta-disco-trasera {
-    background: #8b5cf6;
+    background-color: rgba(0, 0, 0, 0.706); /* Fondo por defecto antes de cargar */
     color: white;
     transform: rotateY(180deg);
-    display: flex;
+    display: flex;             /* Cambiado de inline-block a flex para centrar contenido */
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     text-align: center;
+    position: relative;
+    transition: background-color 0.5s ease; /* Hace que el color aparezca fluidamente */
+    border-radius: 50%;
 }
 
-.Contacto {
+/* Para que la imagen del vinilo no tape el texto ni el nuevo fondo de color */
+.tarjeta-disco-trasera .disco-contraportada {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25; /* Esto hace que el vinilo se mezcle perfectamente con el color dinámico */
+    z-index: 1;
+}
+
+.informacion-disco {
+    position: relative;
+    z-index: 2; /* Pone los textos por encima del vinilo */
+    padding: 20px;
+}
+
+.créditos {
+    background-color: rgba(99, 99, 99, 0.7);
+    height: 200px;
     text-align: center;
     padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 /* ==========================================================================

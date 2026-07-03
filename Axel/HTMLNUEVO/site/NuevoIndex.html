@@ -25,38 +25,59 @@
             <nav>
                 <ul>
                     <li><a href="#introduccion">Inicio</a></li>
-                    <li><a href="#discos">Discos</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+                    <li class="tiene-submenu">
+                        <a href="#discos">Discos</a>
+                        <ul class="submenu">
+                            <li><a href="#2020s">2020's</a></li>
+                            <li><a href="#2010s">2010's</a></li>
+                            <li><a href="#2000s">2000's</a></li>
+                            <li><a href="#1990s">1990's</a></li>
+                            <li><a href="#1980s">1980's</a></li>
+                            <li><a href="#1970s">1970's</a></li>
+                            <li><a href="#1960s">1960's</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#créditos">Créditos</a></li>
                 </ul>   
             </nav>
         </div>
     </section>
 
     <main class="contenedor-principal">
-        <section class="Introducción" id="introduccion">
-            <p>Hola, buenas tardes, esta es mi página web para mostrar los discos que considero perfección absoluta.</p>
-            <p>La mayoría marcó cambios en mi vida y por eso los quiero compartir con ustedes.</p>
+        <section class="introduccion" id="introduccion">
+            <div class="intro-content">
+                <span class="intro-tag">Curated Collection</span>
+                <h1>Discos que considero <span class="highlight">perfección absoluta</span>.</h1>
+                <p class="intro-lead">La mayoría marcó un cambio profundo en mi vida; por eso quiero compartirlos contigo.</p>
+            </div>
         </section>
 
         <div class="Discos" id="discos">
-            <h2>2020's</h2>
+            <h2 id="2020s">2020's</h2>
             <div class="decada" id="2020"></div>
-            <h2>2010's</h2>
+            <h2 id="2010s">2010's</h2>
             <div class="decada" id="2010"></div>
-            <h2>2000's</h2>
+            <h2 id="2000s">2000's</h2>
             <div class="decada" id="2000"></div>
-            <h2>1990's</h2>
+            <h2 id="1990s">1990's</h2>
             <div class="decada" id="1990"></div>
-            <h2>1980's</h2>
+            <h2 id="1980s">1980's</h2>
             <div class="decada" id="1980"></div>
-            <h2>1970's</h2>
+            <h2 id="1970s">1970's</h2>
             <div class="decada" id="1970"></div>
-            <h2>1960's</h2>
+            <h2 id="1960s">1960's</h2>
             <div class="decada" id="1960"></div>
         </div>
 
-        <footer class="Contacto" id="contacto">
-            <p>Contacto: <a href="mailto:axeledrey05@gmail.com">axeledrey05@gmail.com</a></p>
+        <footer class="créditos" id="créditos">
+            <img src="../assets/MaGotPranked.png" alt="MaGotPranked" class="MaGotPranked" height="200px" style="transform: scaleX(-1);">
+            <div class="Informacion">
+                <p>Realizado por Axel Edrey Zaragoza Bravo</p>
+                <p>Contacto: <a href="mailto:axeledrey05@gmail.com">axeledrey05@gmail.com</a></p>
+                <p>Encargado de equipo: Agustín Villarreal García</p>
+                <p>Jefe de Servicio: Nelly Beatriz Santoyo Rivera</p>
+            </div>
+            <img src="../assets/MaGotPranked.png" alt="MaGotPranked" class="MaGotPranked" height="200px">
         </footer>
     </main>
     <script src="DiscosDivs.js"></script>
