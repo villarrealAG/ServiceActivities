@@ -10,5 +10,5 @@ const procesos = 3
 Administrador: ${usuario}
 Carga del procesador: ${procesos * 15}%
 ---------------------------`)/*/
-console.log(`Estado de alerta: ${procesos > 5 ? "Crítico" : "Estable"}. Procesos restantes para límite: ${10 - procesos}.`)
-//console.log(`Diagnóstico de ${sistema}: ${procesos > 0 ? `Se detectaron ${procesos} procesos activos del usuario ${usuario}.` : `No hay actividad registrada.`}`)
+//console.log(`Estado de alerta: ${procesos > 5 ? "Crítico" : "Estable"}. Procesos restantes para límite: ${10 - procesos}.`)
+console.log(`Diagnóstico de ${sistema}: ${procesos > 0 ? `Se detectaron ${procesos} procesos activos del usuario ${usuario}.` : `No hay actividad registrada.`}`)
