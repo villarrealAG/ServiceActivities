@@ -1,2 +1,5 @@
 assets/
 .env
+
+ServiceActivities\Axel\JavaScript\package
+ServiceActivities\Axel\JavaScript\package-lock
