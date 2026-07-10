@@ -1,11 +1,9 @@
-let precio = 1500
-let descuento = 20
-let edad = 18
-let numero = 5
 
+let edad = 18
 var verificacionEdad = edad >= 18 ? "Mayor" : "Menor";
 console.log(`La persona es: ${verificacionEdad} de edad`);
 
+let numero = 5
 if (numero > 0) {
     console.log("El numero es positivo");
 } else if (numero == 0) {
@@ -14,17 +12,23 @@ if (numero > 0) {
     console.log("El numero es negativo");
 }
 
-let categoria = "b"; // Categoría de descuento ('a' o 'b')
+let tipoDesc = "c";
+let precio = 1500
 
-switch (categoria) {
-    case "b": {
-        descuento = 20; // 20% de descuento para categoría b
-        console.log("Categoría B: se aplica un 20% de descuento.");
+switch (tipoDesc) {
+    case "a": {
+        descuento = 20;
+        console.log("Categoría A: se aplica un 20% de descuento.");
         break;
     }
-    case "a": {
-        descuento = 10; // 10% de descuento para categoría a
-        console.log("Categoría A: se aplica un 10% de descuento.");
+    case "b": {
+        descuento = 10;
+        console.log("Categoría B: se aplica un 10% de descuento.");
+        break;
+    }
+    case "c": {
+        descuento = 90;
+        console.log("Categoría C: se aplica un 90% de descuento.");
         break;
     }
     default: {
