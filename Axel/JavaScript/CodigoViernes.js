@@ -12,8 +12,6 @@
     * Un historial de transacciones (puedes usar un string largo que vayas acumulando o pensar en cómo estructurar una lista de movimientos).
 */
 
-    let saldoActual = 0, PIN = '1111', intentos = 1, estadoCuenta = true, historial = [];
-
 /*
     2. El Bucle Principal (El Motor)
     Todo el programa debe ejecutarse dentro de un bucle (un while es ideal aquí).
@@ -40,60 +38,121 @@
     Historial Dinámico: Cada vez que un retiro o depósito sea exitoso, debes guardar un registro en tu variable de historial (Ej: "+ $100 - Depósito" o "- $202 - Retiro con comisión"). Si la transacción falla por falta de fondos, también debe registrarse como "FALLIDO - Fondos insuficientes".
 */
 
+    // --- VARIABLES INICIALES FALTANTES ---
+    const PIN = '1234';          // PIN simulado de la tarjeta (en formato String)
+    let intentos = 1;            // El contador empieza en el intento 1
+    let saldoActual = 1000;      // Saldo inicial simulado
+    let historial = ["Saldo inicial: $1000"]; // Historial de movimientos
+    let repetir = true;          // Controla el bucle del menú (motor)
+
     cajero: while (true) {
 
         // Bienvenida
-        console.log('🔥 Bienvenido al Cajero Automático Virtual 🔥\nEscribe el número de la operación que desees realizar')
+        console.log('🔥 Bienvenido al Cajero Automático Virtual 🔥\nEscribe el número de la operación que desees realizar');
 
         // Bucle de intentos de acceso
         while (intentos <= 3) {
             console.log('Intento número ' + intentos);
-            let acceso = prompt('Insertar el PIN de su tarjeta: ')
+            let acceso = prompt('Insertar el PIN de su tarjeta: ');
             if (acceso !== PIN) {
-                intentos++
+                intentos++;
                 if (intentos > 3) {
-                    console.log('CUENTA BLOQUEADA - Se superó la cantidad de intentos permitida')
+                    console.log('CUENTA BLOQUEADA - Se superó la cantidad de intentos permitida');
                     break cajero;
                 }
             }
             else {
-                intentos = 0;
+                intentos = 1; // Reseteamos a 1 para futuras validaciones si fuera necesario
                 break;
             }
         }
 
-        console.log('1. Ver saldo, 2. Retirar, 3. Depositar, 4. Ver historial, 5. Salir')
-        let operacion = prompt();
+        motor: while (repetir) {
+            let mensaje = '';
 
-        // switch de operaciones
-        switch (operacion) {
-            case '1':
-                console.log('VER SALDO\nSaldo Actual: ' + saldoActual);
-                break;
-            case '2':
-                break;
-            case '3':
-                break;
-            case '4':
-                break;
-            case '5':
-                while (true) {
-                    let opcion = prompt('¿Terminar operación?: Si / No ');
-                    if (opcion === 'Si') break cajero;
-                    else if (opcion === 'No') {
-                        let nuevaOpcion = prompt('¿Desea realizar una nueva operación?: Si / No ')
-                        if (nuevaOpcion === 'No') {
-                            console.log('Ya decidase cabrón xd');
-                            continue;
+            console.log('1. Ver saldo, 2. Retirar, 3. Depositar, 4. Ver historial, 5. Salir');
+            // Mantuviste los casos como Strings ('1', '2'...), así que el prompt directo funciona bien
+            let operacion = prompt(); 
+
+            // switch de operaciones
+            switch (operacion) {
+                case '1':
+                    console.log('VER SALDO\nSaldo Actual: $' + saldoActual);
+                    break;
+                    
+                case '2': // --- COMPLETADO: RETIRAR ---
+                    console.log('RETIRAR DINERO');
+                    let montoRetirar = Number(prompt('¿Cuánto dinero desea retirar?: '));
+                    
+                    if (isNaN(montoRetirar) || montoRetirar <= 0) {
+                        console.log('Monto inválido.');
+                    } else if (montoRetirar > saldoActual) {
+                        console.log('Fondos insuficientes. Tu saldo es de: $' + saldoActual);
+                    } else {
+                        saldoActual -= montoRetirar; // Restamos al saldo
+                        historial.push(`Retiro: -$${montoRetirar}`); // Registramos en el historial
+                        console.log(`Retiro exitoso. Retiraste: $${montoRetirar}. Saldo nuevo: $${saldoActual}`);
+                    }
+                    break;
+                    
+                case '3': // --- COMPLETADO: DEPOSITAR ---
+                    console.log('DEPOSITAR DINERO');
+                    let montoDepositar = Number(prompt('¿Cuánto dinero desea depositar?: '));
+                    
+                    if (isNaN(montoDepositar) || montoDepositar <= 0) {
+                        console.log('Monto inválido.');
+                    } else {
+                        saldoActual += montoDepositar; // Sumamos al saldo
+                        historial.push(`Depósito: +$${montoDepositar}`); // Registramos en el historial
+                        console.log(`Depósito exitoso. Depositaste: $${montoDepositar}. Saldo nuevo: $${saldoActual}`);
+                    }
+                    break;
+                    
+                case '4':
+                    console.log('\n===================================');
+                    console.log('    📜 HISTORIAL DE MOVIMIENTOS    ');
+                    console.log('===================================');
+                    
+                    // Si solo tiene el saldo inicial, significa que no hay movimientos aún
+                    if (historial.length === 1) {
+                        console.log(' No se han realizado transacciones en esta sesión.');
+                    } else {
+                        // Recorremos el historial y lo numeramos limpiamente
+                        historial.forEach((movimiento, index) => {
+                            console.log(`${index + 1}. ${movimiento}`);
+                        });
+                    }
+                    console.log('===================================\n');
+                    
+                    // Quitamos los prompts molestos de aquí adentro. 
+                    // Un break simple cierra el caso y el ciclo 'motor' te regresa al menú principal en automático.
+                    break;
+                    
+                case '5':
+                    while (true) {
+                        let opcion = prompt('¿Terminar operación?: Si / No ');
+                        if (opcion === 'Si') {
+                            break cajero;
                         }
-                        else if (nuevaOpcion === 'Si') break;
+                        else if (opcion === 'No') {
+                            let nuevaOpcion = prompt('¿Desea realizar una nueva operación?: Si / No ');
+                            if (nuevaOpcion === 'No') {
+                                console.log('Ya decidase cabrón xd'); // Mantuve tu joya de mensaje jajaja
+                                continue;
+                            }
+                            else if (nuevaOpcion === 'Si') {
+                                break; // Rompe este minibucle del caso 5 para volver al menú de opciones
+                            }
+                            else console.log('Respuesta inválida');
+                        }
                         else console.log('Respuesta inválida');
                     }
-                    else console.log('Respuesta inválida');
-                }
-            default:
-                console.log('Opción no disponible');
-                continue;
+                    break; // Rompe el caso 5 del switch
+                    
+                default:
+                    console.log('Opción no disponible');
+                    continue;
+            }
         }
     }
     
