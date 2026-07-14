@@ -1,10 +1,10 @@
 // Rogue Like de un dado 
 // Tienes que conseguir 100 en la sumatoria de tu array 
+
 let dado=[]
 let SumaTotal=0
 let SumaTotal2=0
 let SumaTotal3=0
-
 for(i=0;i<5;i++){
 let =aditamiento =Math.floor(Math.random()*10)
     dado.push(aditamiento)
@@ -34,4 +34,3 @@ if(SumaTotal<=50){
 
 
 }       
-                           
