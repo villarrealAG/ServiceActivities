@@ -75,7 +75,25 @@ console.log(soyEstudiante2);
 /*/
 Arrow functions.
 
-Una expresion de funcion flecha es una alternativa compacta a una expresion de funcion tradicional, pero es limitada y no puede ser utilizada en todos los contextos. Las funciones flecha son anonimas y no tienen su propio "this", "arguments", "super" o "new.target". Son ideales para funciones cortas y callbacks.
+¿Que es el this y porque las arrow functions no lo usan?
+En JavaScript, "this" es una palabra clave que hace referencia al 
+objeto desde el cual se está invocando una función. Su valor 
+depende del contexto en el que se utiliza y puede variar según 
+cómo se llame a la función.
+Las arrow functions no tienen su propio "this". En su lugar, 
+heredan el "this" del contexto en el que fueron definidas. Esto 
+significa que dentro de una arrow function, "this" se refiere al 
+mismo objeto que en el contexto exterior donde se creó la función.
+Esta característica hace que las arrow functions sean útiles para 
+mantener el contexto de "this" en situaciones donde las funciones 
+tradicionales podrían cambiarlo, como en callbacks o métodos de 
+objetos.
+
+Una expresion de funcion flecha es una alternativa compacta a una 
+expresion de funcion tradicional, pero es limitada y no puede ser 
+utilizada en todos los contextos. Las funciones flecha son 
+anonimas y no tienen su propio "this", "arguments", "super" o 
+"new.target". Son ideales para funciones cortas y callbacks.
 Sintaxis de una funcion flecha:
 
 const nombreFuncion = (parametros) => {

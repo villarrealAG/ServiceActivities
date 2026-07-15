@@ -114,3 +114,7 @@ for(let b = 0; b < tareas.length; b++){
 }
 console.log(buscar);
 console.log(numeros[3])
+
+frutas[4] = "Pera";
+console.log(frutas[4]);
+console.log(Object.keys(frutas));
