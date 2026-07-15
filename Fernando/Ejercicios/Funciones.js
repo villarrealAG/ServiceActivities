@@ -1,3 +1,4 @@
+// Las funciones son bloques de codigo que se ejecutan cuando son invocadas, pueden recibir parametros y retornar valores
 //Funciones practicas, Primera: Validar edad
 function validarEdad(edad){
     switch(true){
@@ -14,8 +15,7 @@ function validarEdad(edad){
             console.log("El valor ingresado es un invalido")
     }
 }
-
-
+//Se puede hacer funciones de bucles
 function muchosHolasfor(){
     for(i=1;i<10;i++ ){
         console.log("hola")
@@ -36,10 +36,7 @@ function DesApli(NumeroTamales){
         Total=NumeroTamales*tamalespre}
         return console.log(Total)
     }
-
+//Aplicando las funciones
 DesApli(5)
-
-    
-
 validarEdad(80)
 muchosHolasfor()
