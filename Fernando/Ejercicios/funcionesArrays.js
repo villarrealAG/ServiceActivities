@@ -10,7 +10,6 @@ function mayoresQueCinco(numbers) {
     return x > 5;
   });
 }
-
 var numbers = [1, 5, 10, 15];
 var doubles = pordos(numbers);
 var mayores = mayoresQueCinco(doubles);
