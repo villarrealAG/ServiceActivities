@@ -177,3 +177,11 @@ function esSuficientementeGrande(elemento) {
 }
 var filtrados = [12, 5, 8, 130, 44].filter(esSuficientementeGrande);
 console.log(filtrados)
+
+//Practicas
+const preciosDolar = [15,60,25,50,70];
+const preciosPesos = preciosDolar.map((precio) => precio * 18);
+const precioPrem = preciosDolar.filter((precio) => precio > 50);
+
+console.log(preciosPesos)
+console.log(precioPrem)
