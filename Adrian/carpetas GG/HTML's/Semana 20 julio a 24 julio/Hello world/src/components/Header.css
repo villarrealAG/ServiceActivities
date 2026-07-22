@@ -1,0 +1,17 @@
+.Header {
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--accent-bg), transparent);
+  text-align: center;
+}
+
+.Header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.5rem;
+  color: var(--accent);
+}
+
+.Header p {
+  color: var(--text);
+  font-size: 1.1rem;
+  margin: 0;
+}
