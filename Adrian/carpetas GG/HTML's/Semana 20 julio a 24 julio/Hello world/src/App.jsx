@@ -6,7 +6,10 @@ import cardsData from './data/information'
 
 function App() {
   const CardDataList = cardsData.map((v, index) => {
-    return <Card key={index} title={v.title}>{v.content}</Card>
+    return (
+      <Card key={index} title={v.title} image={v.image} text={v.text}>
+      </Card>
+    )
   })
 
   return (
