@@ -1,9 +1,20 @@
-export function setupCounter(element) {
-  let counter = 0
-  const setCounter = (count) => {
-    counter = count
-    element.innerHTML = `Count is ${counter}`
-  }
-  element.addEventListener('click', () => setCounter(counter + 1))
-  setCounter(0)
+import { useState } from 'react'
+
+export function Counter() {
+	const [counter, setCounter] = useState(0)
+
+	return (
+		<button type="button" onClick={() => setCounter((count) => count + 1)}>
+			Picale {counter}
+		</button>
+	)
+}
+
+export function Likes() {
+	const [like, setPro] = useState(false)
+	return (
+		<button type="button" onClick={() => setPro((!like) )}>
+			 {like ? "PRO":"NOOB"}
+		</button>
+	)
 }

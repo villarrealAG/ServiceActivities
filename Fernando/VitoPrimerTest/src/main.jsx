@@ -3,7 +3,9 @@ import { Header } from './components/Header.jsx'
 import { Footer } from './components/Footer.jsx'
 import { Card } from './components/Card.jsx'
 import Usuario from './usuario.jsx'
+import { Counter,Likes } from './counter.jsx'
 import ReactDOM from 'react-dom/client'
+
 const usuarios = [
           { nombre: "Fernando", id:696769, FechaRe:"2024-06-01", cuentaActiva: true },
           { nombre: "Adrian", id:777, FechaRe:"2024-06-01", cuentaActiva: false },
@@ -39,10 +41,13 @@ function App() {
         ))}
           </section>
         <p>Aqui pues usamos la etiqueta "creada" de usuario con varios atributos personalziados que se mandan, todo esto es funcional en cuestion de reutilizar cosas solo es cuestion de renviar la informacion que queramos que se muestre en formato</p>
-        
+        <p>Ahora aqui acabajo hay uno botones con SetState que lo que hace es poder actualizar una parte del html sin tener que volver a renderizar la pagina entera dos funciones simples que saque de youtube pero funcionan</p>
+        <Counter/>
+        <br></br>
+        <Likes/>
         </section>
       </main>
-      <Footer />
+      <Footer/>
     </>
   )
 }
