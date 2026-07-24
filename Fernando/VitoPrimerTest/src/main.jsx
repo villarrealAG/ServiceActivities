@@ -5,6 +5,7 @@ import { Card } from './components/Card.jsx'
 import Usuario from './usuario.jsx'
 import { Counter,Likes } from './counter.jsx'
 import ReactDOM from 'react-dom/client'
+import { useTaskList } from './useTaskList.jsx'
 
 const usuarios = [
           { nombre: "Fernando", id:696769, FechaRe:"2024-06-01", cuentaActiva: true },
@@ -13,6 +14,8 @@ const usuarios = [
           ];
 
 function App() {
+  const { taskInput, setTaskInput, tasks, handleAddTask, handleDeleteTask } = useTaskList()
+
   return (
     <>
       <Header />
@@ -20,6 +23,30 @@ function App() {
         <section className="hero-section">
           <h1>Hola mundo ITESI</h1>
           <p>Componentes reutilizables reutilizables: ejemplo: Cartas</p>
+        </section>
+
+        <section className="task-list-section">
+          <h2>Lista de tareas</h2>
+          <div className="task-form">
+            <input
+              type="text"
+              value={taskInput}
+              onChange={(event) => setTaskInput(event.target.value)}
+              placeholder="Hoy voy a...."
+            />
+            <button type="button" onClick={handleAddTask}>Agregar</button>
+          </div>
+
+          <ul className="task-list">
+            {tasks.map((task) => (
+              <li key={task.id} className="task-item">
+                <span>{task.text}</span>
+                <button type="button" onClick={() => handleDeleteTask(task.id)}>
+                  Eliminar
+                </button>
+              </li>
+            ))}
+          </ul>
         </section>
         <section className="cards-grid">
           <Card title="Carta 1" text="Test" accent={true} link="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJKqD8E3AkhuTeZk4ouO1a4QLZ0iCLgrZpgxjJvkmcw&s=10" />
