@@ -1,0 +1,63 @@
+.Card-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.Card-item:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+/* Checkbox estándar */
+.Card-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--text-primary); /* Hace que el checkbox sea del color del tema */
+}
+
+/* Texto de la tarea */
+.Card-text {
+  flex: 1;
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Estado de completado (texto tachado y más claro) */
+.Card-item.is-completed {
+  opacity: 0.6;
+}
+
+.Card-item.is-completed .Card-text {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+/* Botón simple de eliminar */
+.Card-delete-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.Card-delete-btn:hover {
+  background-color: var(--danger-subtle);
+  border-color: var(--danger);
+  color: var(--danger);
+}
