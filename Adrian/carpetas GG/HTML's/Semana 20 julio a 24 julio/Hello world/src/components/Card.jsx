@@ -16,20 +16,20 @@ function Card({ title, image, text, code, children }) {
                             <code>{code}</code>
                         </pre>
                     )}
+                    {children}
                 </div>
             )}
             <button className="Card-btn" onClick={() => setShowText(!showText)}>
                 {showText ? "Ocultar info" : "Saber más"}
             </button>
-            {children}
         </div>
     )
 }
 
-export function BotonesInterectavos() {
+export function BotonesInteractivos() {
     const [contador, setContador] = useState(0)
-    const [likeado, setlikeado] = useState(false)
-    const [likesCount, setLikesCount] = useState(24) // Initial number of likes
+    const [likeado, setLikeado] = useState(false)
+    const [likesCount, setLikesCount] = useState(24) 
 
     const handleLikeClick = () => {
         if (likeado) {
@@ -37,7 +37,7 @@ export function BotonesInterectavos() {
         } else {
             setLikesCount(likesCount + 1);
         }
-        setlikeado(!likeado);
+        setLikeado(!likeado);
     }
     
     return (

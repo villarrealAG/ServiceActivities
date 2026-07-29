@@ -106,6 +106,48 @@ const clickState = () => { setClicksState(clicksState + 1); };`
     </button>
   );
 }`
+  },
+  {
+    title: '¿Qué es un "efecto secundario" en React?',
+    image: "",
+    text: "Se le llama efecto secundario (o side-effect) a cualquier acción que realiza nuestro código (en el interior de una función, por ejemplo) y afecta a algo que se encuentra fuera del ámbito de esa función, es decir, que estamos alterando algo no relacionado directamente con lo que devolvemos en la función.",
+    code: `//Efectos secundarios
+let counter = 0;
+
+function incrementCounter() {
+  counter++; // Modifica la variable global (efecto secundario)
+}
+
+incrementCounter();
+console.log(counter); // 1
+
+
+//Funciones puras
+let counter = 0;
+
+function incrementCounter(counter) {
+  return counter + 1;
+}
+
+counter = incrementCounter(counter);
+console.log(counter); // 1
+
+`
+  },
+  {
+    title: '¿Qué es useEffect, su sintaxis básica, el arreglo de dependencias [] y por qué existe?',
+    image: "",
+    text: `Es una función de React diseñada para gestionar efectos secundarios (side-effects) de forma controlada y predecible.
+
+Ejemplos de efectos secundarios: Peticiones a una API, suscripciones a eventos, temporizadores (setInterval / setTimeout), o modificación manual del DOM.`,
+    code: `// Sintaxis básica
+useEffect(() => {
+  // 1. Código a ejecutar (Montaje / Actualización)
+
+  return () => {
+    // 2. Función de limpieza (Desmontaje / Antes de re-ejecutar)
+  };
+}, [/* 3. Array de dependencias */]);`
   }
 ]
 
