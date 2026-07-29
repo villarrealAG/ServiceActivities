@@ -148,6 +148,65 @@ useEffect(() => {
     // 2. Función de limpieza (Desmontaje / Antes de re-ejecutar)
   };
 }, [/* 3. Array de dependencias */]);`
+  },
+  {
+    title: "¿Qué es fetch?",
+    image: "",
+    text: "Es una función nativa de JavaScript que se utiliza para hacer peticiones HTTP a recursos remotos (como APIs o archivos). Devuelve una Promise que se resuelve con el objeto Response. Es la forma moderna de hacer peticiones HTTP en JavaScript, reemplazando a XMLHttpRequest.",
+    code: `// Sintaxis básica
+const [users, setUsers] = useState([]);
+
+const getUsers = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users');
+  const data = await response.json();
+  setUsers(data);
+}  
+
+useEffect(() => {
+  getUsers();
+}, []);
+
+const HTMLUser = users.map((user) => (
+  <div key={user.id}>
+    <h2>{user.name}</h2>
+    <p>{user.email}</p>
+  </div>
+));
+
+return (
+  <div>
+    {HTMLUser}
+  </div>
+);  `
+  },
+  {
+    title: "¿Qué es un formulario controlado en React?",
+    image: "",
+    text: "Un formulario controlado es aquel en el que el valor de los campos de entrada está controlado por el estado de React. Es decir, el estado de React es la 'fuente de la verdad' para los valores de los campos del formulario. ",
+    code: `import { useState } from 'react';
+
+function Formulario() {
+  const [nombre, setNombre] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Previene que la página se recargue
+    console.log('Nombre enviado:', nombre);
+  }
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Nombre:
+        <input 
+          type="text" 
+          value={nombre} 
+          onChange={(e) => setNombre(e.target.value)}
+        />
+      </label>
+      <button type="submit">Enviar</button>
+    </form>
+  );
+}`
   }
 ]
 
