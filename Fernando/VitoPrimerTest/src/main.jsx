@@ -1,84 +1,38 @@
-import './style.css'
-import { Header } from './components/Header.jsx'
-import { Footer } from './components/Footer.jsx'
-import { Card } from './components/Card.jsx'
-import Usuario from './usuario.jsx'
-import { Counter,Likes } from './counter.jsx'
+import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
-import { useTaskList } from './useTaskList.jsx'
+import AppParte1 from './parte1/App.jsx'
+import AppParte2 from './parte2/App.jsx'
 
-const usuarios = [
-          { nombre: "Fernando", id:696769, FechaRe:"2024-06-01", cuentaActiva: true },
-          { nombre: "Adrian", id:777, FechaRe:"2024-06-01", cuentaActiva: false },
-          { nombre: "Axel", id:68686, FechaRe:"2024-06-01", cuentaActiva: true },
-          ];
+function Router() {
+  const [currentRoute, setCurrentRoute] = useState(() => {
+    // Inicializar la ruta basándose en el hash actual
+    const hash = window.location.hash
+    if (hash === '#/parte2') return 'parte2'
+    return 'parte1'
+  })
 
-function App() {
-  const { taskInput, setTaskInput, tasks, handleAddTask, handleDeleteTask } = useTaskList()
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash
+      if (hash === '#/parte2') {
+        setCurrentRoute('parte2')
+      } else {
+        setCurrentRoute('parte1')
+      }
+    }
 
-  return (
-    <>
-      <Header />
-      <main className="app-main">
-        <section className="hero-section">
-          <h1>Hola mundo ITESI</h1>
-          <p>Componentes reutilizables reutilizables: ejemplo: Cartas</p>
-        </section>
+    // Escuchar el evento hashchange para reaccionar al cambio de rutas
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
-        <section className="task-list-section">
-          <h2>Lista de tareas</h2>
-          <div className="task-form">
-            <input
-              type="text"
-              value={taskInput}
-              onChange={(event) => setTaskInput(event.target.value)}
-              placeholder="Hoy voy a...."
-            />
-            <button type="button" onClick={handleAddTask}>Agregar</button>
-          </div>
+  // Renderizar la página según el hash correspondiente
+  if (currentRoute === 'parte2') {
+    return <AppParte2 />
+  }
 
-          <ul className="task-list">
-            {tasks.map((task) => (
-              <li key={task.id} className="task-item">
-                <span>{task.text}</span>
-                <button type="button" onClick={() => handleDeleteTask(task.id)}>
-                  Eliminar
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className="cards-grid">
-          <Card title="Carta 1" text="Test" accent={true} link="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJKqD8E3AkhuTeZk4ouO1a4QLZ0iCLgrZpgxjJvkmcw&s=10" />
-          <Card title="Carta 2" text="Test." accent={false} link="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQRR1mCrqQj6QdhQO8YP7Fu7C1iKczdVVpSzqtSKVEeg&s=10" />
-          <Card title="Carta 3" text="Test." accent={true} link="https://scontent.fbjx1-3.fna.fbcdn.net/v/t39.30808-6/509428479_742057525434100_4639794182002668899_n.jpg?stp=dst-jpg_tt6&cstp=mx768x960&ctp=p168x128&_nc_cat=111&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=lYNaCwZBL_oQ7kNvwF7svJD&_nc_oc=AdoEiSTfYzsEBV1fwRQb6xj2UUDAx2_Jq4tW7Kjwbd6G7sjk_rvH_KaLG9_iD6f21SG-mCZ9zRbdUAncJBvuTltI&_nc_zt=23&_nc_ht=scontent.fbjx1-3.fna&_nc_gid=Mwv8YqJcGyWvpA1HajAEjw&_nc_ss=7b289&oh=00_AQAQlWZs5gHSb4j5JIgSraslhy7u6agGsvfyVIDIqSdxDw&oe=6A66B33A"/>
-        </section>
-        <p>Almacenadas en un contenedor como los que hicimos antes y es facil de añadir y entender todo.</p>
-        <section id="HijosPadres">
-          <p>Aqui voy a hacer uso de componentes hijos y padres y guardarlos en un arreglo para asi simular que lleguen de una base de datos y renderizar sin tener que editar el html</p>
-          <section className="cards-grid">
-          {usuarios.map((usuario) => (
-          <Usuario
-            key={usuario.id}
-            nombre={usuario.nombre}
-            id={usuario.id}
-            FechaRe={usuario.FechaRe}
-            cuentaActiva={usuario.cuentaActiva}
-          />
-        ))}
-          </section>
-        <p>Aqui pues usamos la etiqueta "creada" de usuario con varios atributos personalziados que se mandan, todo esto es funcional en cuestion de reutilizar cosas solo es cuestion de renviar la informacion que queramos que se muestre en formato</p>
-        <p>Ahora aqui acabajo hay uno botones con SetState que lo que hace es poder actualizar una parte del html sin tener que volver a renderizar la pagina entera dos funciones simples que saque de youtube pero funcionan</p>
-        <Counter/>
-        <br></br>
-        <Likes/>
-        </section>
-      </main>
-      <Footer/>
-    </>
-  )
+  return <AppParte1 />
 }
 
 const app = document.querySelector('#app')
-ReactDOM.createRoot(app).render(<App />)
-
+ReactDOM.createRoot(app).render(<Router />)

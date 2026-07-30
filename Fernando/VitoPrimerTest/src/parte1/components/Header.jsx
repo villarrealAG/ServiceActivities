@@ -3,9 +3,8 @@ export function Header() {
     <header className="app-header">
       <div className="brand">Mi App</div>
       <nav className="nav-links">
-        <a href="#">Inicio</a>
-        <a href="#">Servicios</a>
-        <a href="#">Contacto</a>
+        <a href="#/parte1">Parte 1</a>
+        <a href="#/parte2" style={{ color: '#00f2fe', fontWeight: 'bold' }}>Parte 2 →</a>
       </nav>
     </header>
   )
