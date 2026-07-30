@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Card.css";
 
-function Card({ title, image, text, code, children }) {
+function Card({ title, image, text, code, type, children }) {
     const [showText, setShowText] = useState(false);
 
     return (

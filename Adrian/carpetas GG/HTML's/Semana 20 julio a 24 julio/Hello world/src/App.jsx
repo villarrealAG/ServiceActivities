@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 import Header from './components/Header'
 import Card, { BotonesInteractivos } from './components/Card'
@@ -5,9 +6,13 @@ import Footer from './components/Footer'
 import cardsData from './data/information'
 
 function App() {
-  const CardDataList = cardsData.map((v, index) => {
+  const [filter, setFilter] = useState('todas')
+
+  const filteredCards = cardsData.filter((v) => filter === 'todas' || v.type === filter)
+
+  const CardDataList = filteredCards.map((v, index) => {
     return (
-      <Card key={index} title={v.title} image={v.image} text={v.text} code={v.code}>
+      <Card key={index} title={v.title} image={v.image} text={v.text} code={v.code} type={v.type}>
         {/* Tabla explicativa de dependencias para useEffect */}
         {v.title.includes("useEffect") && (
           <div className="tabla-container">
@@ -40,7 +45,7 @@ function App() {
                   <td>🟧 Cuando cambian dep1 y/o dep2</td>
                 </tr>
                 <tr>
-                  <td>Sin array de dependencias</td>
+                  <td><code>Sin array de dependencias</code></td>
                   <td>Se ejecuta primera vez y en cada renderizado.</td>
                   <td>✅</td>
                   <td>✅ Siempre</td>
@@ -56,6 +61,29 @@ function App() {
   return (
     <div className="App">
       <Header />
+      
+      {/* Botones de Filtro Premium */}
+      <div className="filter-container">
+        <button 
+          className={`filter-btn ${filter === 'todas' ? 'active' : ''}`}
+          onClick={() => setFilter('todas')}
+        >
+          Todas
+        </button>
+        <button 
+          className={`filter-btn ${filter === 'investigacion' ? 'active' : ''}`}
+          onClick={() => setFilter('investigacion')}
+        >
+          Investigaciones
+        </button>
+        <button 
+          className={`filter-btn ${filter === 'actividad' ? 'active' : ''}`}
+          onClick={() => setFilter('actividad')}
+        >
+          Actividades
+        </button>
+      </div>
+
       <div className="cards-container">
         {CardDataList}
       </div>

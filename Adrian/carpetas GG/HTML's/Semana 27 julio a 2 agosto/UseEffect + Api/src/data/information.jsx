@@ -8,8 +8,7 @@ const elemento = document.getElementById("mensaje");
 elemento.innerHTML = "<p>Contador: " + contador + "</p>";
 
 // React: Solo actualiza el nodo de texto que cambió
-return <p>Contador: {contador}</p>;`,
-    type: "investigacion"
+return <p>Contador: {contador}</p>;`
   },
   {
     title: "¿Qué es Node.js y npm?",
@@ -19,8 +18,7 @@ return <p>Contador: {contador}</p>;`,
 npm install react react-dom
 
 # Iniciar el servidor de desarrollo de Vite
-npm run dev`,
-    type: "investigacion"
+npm run dev`
   },
   {
     title: "¿Qué es un componente (una función que devuelve JSX)?",
@@ -33,8 +31,7 @@ function Saludo({ nombre }) {
       <h1>¡Hola, {nombre}!</h1>
     </div>
   );
-}`,
-    type: "investigacion"
+}`
   },
   {
     title: "¿Qué es JSX (HTML dentro de JS)?",
@@ -46,8 +43,7 @@ const elemento = (
     <h1>Bienvenidos a React</h1>
     <p>Empecemos a programar.</p>
   </section>
-);`,
-    type: "investigacion"
+);`
   },
   {
     title: "Diferencias clave con HTML (className, cerrar todas las etiquetas)",
@@ -59,8 +55,7 @@ const elemento = (
   className="form-input" 
   disabled={true} 
   type="text" 
-/> // <-- Obligatorio cerrar la etiqueta auto-conclusiva`,
-    type: "investigacion"
+/> // <-- Obligatorio cerrar la etiqueta auto-conclusiva`
   },
   {
     title: "Expresiones {} dentro de JSX",
@@ -73,8 +68,7 @@ return (
     <h2>Usuario: {usuario.nombre.toUpperCase()}</h2>
     <p>Acceso: {usuario.edad >= 18 ? "Permitido ✅" : "Restringido ❌"}</p>
   </div>
-);`,
-    type: "investigacion"
+);`
   },
   {
     title: "¿Qué es un estado (useState)?",
@@ -85,8 +79,7 @@ return (
 // Declaración de un estado contador con valor inicial 0
 const [contador, setContador] = useState(0);
 
-// Para actualizar: setContador(nuevoValor)`,
-    type: "investigacion"
+// Para actualizar: setContador(nuevoValor)`
   },
   {
     title: "¿Por qué React necesita useState en vez de una variable normal (re-render)?",
@@ -98,8 +91,7 @@ const clickNormal = () => { clicks += 1; }; // No pasa nada en pantalla
 
 // CON STATE: React re-renderiza y muestra el nuevo valor
 const [clicksState, setClicksState] = useState(0);
-const clickState = () => { setClicksState(clicksState + 1); };`,
-    type: "investigacion"
+const clickState = () => { setClicksState(clicksState + 1); };`
   },
   {
     title: "Eventos en React (on click, on change)",
@@ -113,8 +105,7 @@ const clickState = () => { setClicksState(clicksState + 1); };`,
       Presióname
     </button>
   );
-}`,
-    type: "investigacion"
+}`
   },
   {
     title: '¿Qué es un "efecto secundario" en React?',
@@ -139,9 +130,7 @@ function incrementCounter(counter) {
 }
 
 counter = incrementCounter(counter);
-console.log(counter); // 1
-`,
-    type: "investigacion"
+console.log(counter); // 1`
   },
   {
     title: '¿Qué es useEffect, su sintaxis básica, el arreglo de dependencias [] y por qué existe?',
@@ -156,8 +145,7 @@ useEffect(() => {
   return () => {
     // 2. Función de limpieza (Desmontaje / Antes de re-ejecutar)
   };
-}, [/* 3. Array de dependencias */]);`,
-    type: "investigacion"
+}, [/* 3. Array de dependencias */]);`
   },
   {
     title: "¿Qué es fetch?",
@@ -187,8 +175,7 @@ return (
   <div>
     {HTMLUser}
   </div>
-);  `,
-    type: "investigacion"
+);  `
   },
   {
     title: "¿Qué es un formulario controlado en React?",
@@ -217,8 +204,7 @@ function Formulario() {
       <button type="submit">Enviar</button>
     </form>
   );
-}`,
-    type: "investigacion"
+}`
   },
   {
     title: "Concepto: useEffect + fetch juntos",
@@ -229,55 +215,40 @@ useEffect(() => {
   fetch('https://api.example.com/data')
     .then(response => response.json())
     .then(data => setData(data));
-}, []); // <-- Importante: arreglo de dependencias vacío`,
-    type: "investigacion"
+}, []); // <-- Importante: arreglo de dependencias vacío`
   },
   {
     title: "Práctica: Traer datos de API y mostrarlos con .map()",
     image: "",
-    text: "Consumiendo una API pública real (Digimon API). En el montaje inicial (useEffect con []), realizamos un fetch para cada ID del 1 al 11 y actualizamos el estado 'digimonData' agregando cada nuevo Digimon. En el JSX, recorremos este arreglo mediante .map() para pasar la información a cada componente <DigimonCards />.",
-    code: `const [digimonData, setDigimonData] = useState([])
-const base_url = 'https://digi-api.com/api/v1/digimon'
-
-const fetchDigimon = async (id) => {
-  try {
-    const response = await fetch(\`\${base_url}/\${id}\`)
-    const data = await response.json()
-    setDigimonData((prevData) => [...prevData, data])
-  } catch (error) {
-    console.error(error)
-  }
-}
+    text: "Consumiendo una API pública real (JSONPlaceholder). Usamos fetch dentro de useEffect al montar el componente para obtener una lista de usuarios. Almacenamos el resultado en el estado (useState) y lo recorremos en el JSX usando el método .map() de JavaScript para generar los elementos de la interfaz de forma dinámica.",
+    code: `const [usuarios, setUsuarios] = useState([]);
 
 useEffect(() => {
-  for (let i = 1; i <= 11; i++) {
-    fetchDigimon(i)
-  }
-}, []); // <-- Se ejecuta una sola vez al montar el componente
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsuarios(data));
+}, []);
 
 return (
-  <div className='grid grid-cols-3 gap-4'>
-    {digimonData.map((digimon, index) => (
-      <DigimonCards key={index} digimonData={digimon}/>
+  <ul>
+    {usuarios.map(user => (
+      <li key={user.id}>{user.name} ({user.email})</li>
     ))}
-  </div>
-);`,
-    type: "actividad"
+  </ul>
+);`
   },
   {
     title: "Análisis: Provocar Bucle Infinito (olvidar [])",
     image: "",
-    text: "Si olvidamos colocar el arreglo de dependencias [] en el useEffect de nuestra aplicación de Digimon, el efecto se ejecutará en cada render. Al montarse la página, se llama a fetchDigimon, el cual modifica el estado mediante setDigimonData. Como setDigimonData altera el estado de React, el componente se re-renderiza y ejecuta nuevamente fetchDigimon de forma indefinida, saturando el navegador y al servidor de la API.",
-    code: `// ⚠️ BUCLE INFINITO (OLVIDAR []):
+    text: "Si olvidamos colocar el arreglo de dependencias en useEffect, el efecto se ejecutará en CADA renderizado. Si dentro del efecto modificamos el estado de React (ej. setUsuarios), este cambio provocará un nuevo renderizado inmediato, volviendo a ejecutar el efecto, el cual modificará el estado otra vez, re-renderizando nuevamente de forma indefinida. Esto satura el navegador y lo congela.",
+    code: `// ⚠️ BUCLE INFINITO (CUIDADO):
 useEffect(() => {
-  // Se ejecuta en cada renderizado por falta de []
-  for (let i = 1; i <= 11; i++) {
-    fetchDigimon(i) // <-- Llama a setDigimonData internamente
-  }
-}); // <-- ¡Omitido el arreglo []!
-// Ciclo: Render -> Corre efecto -> fetchDigimon -> setDigimonData -> Re-render -> Corre efecto...`,
-    type: "actividad"
-  }
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsuarios(data)); // <-- 2. Modifica estado -> Re-render
+}); // <-- 1. ¡Omitir dependencias ejecuta useEffect en cada render!
+// Ciclo: 1 -> 2 -> Re-render -> 1 -> 2 -> Re-render... (Bucle sin fin)`
+  },
 ]
 
 export default cardsData
