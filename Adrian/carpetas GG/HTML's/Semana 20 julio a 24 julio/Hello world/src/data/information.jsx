@@ -277,6 +277,62 @@ useEffect(() => {
 }); // <-- ¡Omitido el arreglo []!
 // Ciclo: Render -> Corre efecto -> fetchDigimon -> setDigimonData -> Re-render -> Corre efecto...`,
     type: "actividad"
+  },
+  {
+    title: "Concepto: value + onChange ligados a useState",
+    image: "",
+    text: "En React, los formularios controlados vinculan el valor de un campo de entrada directamente a una variable de estado. Para poder escribir o interactuar con el campo, se requiere una función manejadora de eventos (onChange) que capture cada cambio del usuario y actualice el estado correspondiente. De esta manera, el estado de React es siempre la fuente de verdad única.",
+    code: `const [texto, setTexto] = useState('');
+
+return (
+  <input 
+    type="text" 
+    value={texto} 
+    onChange={(e) => setTexto(e.target.value)} 
+  />
+);`,
+    type: "investigacion"
+  },
+  {
+    title: "Práctica: Formulario Controlado con Prioridad",
+    image: "",
+    text: "Convertimos el campo de entrada de la lista de tareas en un formulario controlado, y añadimos un segundo campo desplegable (<select>) para asignar una prioridad ('Alta', 'Media', 'Baja') a cada tarea. Al enviar el formulario con onSubmit, se previene el refresco por defecto, se crea el objeto de la tarea con su texto y prioridad, y se limpian los estados de los campos.",
+    code: `const [text, setText] = useState("");
+const [priority, setPriority] = useState("media");
+
+const addTask = (e) => {
+  e.preventDefault();
+  if (text.trim() === "") return;
+
+  const newTask = {
+    id: Date.now().toString(),
+    text: text.trim(),
+    priority: priority,
+    completed: false
+  };
+
+  setTasks([newTask, ...tasks]);
+  setText("");
+  setPriority("media");
+};`,
+    type: "actividad"
+  },
+  {
+    title: "Análisis: ¿Por qué sin onChange el input 'no deja escribir'?",
+    image: "",
+    text: "Al definir la propiedad 'value' de un input ligada a un estado de React sin asociar un controlador 'onChange', el navegador bloquea la escritura. Cada vez que presionas una tecla, el navegador intenta actualizar el input, pero como el estado no cambia (ya que no hay onChange que llame a la función set), React re-renderiza inmediatamente el input forzándolo a mostrar el valor actual del estado (vacío o inicial). Esto hace que parezca congelado.",
+    code: `// ⚠️ INPUT BLOQUEADO (SIN ONCHANGE):
+const [texto, setTexto] = useState("");
+
+return (
+  <input 
+    type="text" 
+    value={texto} // React obliga a que el valor siempre sea el estado "texto"
+    // Sin onChange={(e) => setTexto(e.target.value)}
+  />
+);
+// Al teclear, el estado sigue siendo "" y React vuelve a pintar el input vacío.`,
+    type: "actividad"
   }
 ]
 
