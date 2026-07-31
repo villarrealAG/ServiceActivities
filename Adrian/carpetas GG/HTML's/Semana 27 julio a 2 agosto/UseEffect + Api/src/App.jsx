@@ -15,9 +15,20 @@ function App() {
     }
   }
 
-  const fetchAllDigimons = () => {
-    for (let i = 1; i <= 11; i++) {
-      fetchDigimon(i)
+  const fetchAllDigimons = async () => {
+    try {
+      const promises = []
+      for (let i = 1; i <= 114; i++) {
+        promises.push(
+          fetch(`${base_url}/${i}`).then((response) => response.json())
+        )
+      }
+
+      const results = await Promise.all(promises)
+
+      setDigimonData(results)
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -35,7 +46,7 @@ function App() {
       <div className='px-4'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {digimonData.map((digimon, index) => (
-            <DigimonCards key={index} digimonData={digimon}/>
+            <DigimonCards key={index} digimonData={digimon} />
           ))}
         </div>
       </div>
