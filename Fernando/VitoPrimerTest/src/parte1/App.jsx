@@ -13,7 +13,7 @@ const usuarios = [
 ];
 
 export default function App() {
-  const { taskInput, setTaskInput, tasks, handleAddTask, handleDeleteTask } = useTaskList()
+  const { taskInput, setTaskInput, priorityInput, setPriorityInput, tasks, handleAddTask, handleDeleteTask } = useTaskList()
 
   return (
     <>
@@ -26,31 +26,43 @@ export default function App() {
 
         <section className="task-list-section">
           <h2>Lista de tareas</h2>
-          <div className="task-form">
+          <form className="task-form" onSubmit={handleAddTask}>
             <input
               type="text"
               value={taskInput}
-              onChange={(event) => setTaskInput(event.target.value)}
-              placeholder="Hoy voy a...."
+              onChange={(e) => setTaskInput(e.target.value)}
+              placeholder="Escribe una tarea"
             />
-            <button type="button" onClick={handleAddTask}>Agregar</button>
-          </div>
+            <select
+              value={priorityInput}
+              onChange={(e) => setPriorityInput(e.target.value)}
+            >
+              <option value="Alta">Alta</option>
+              <option value="Media">Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+            <button type="submit">Agregar</button>
+          </form>
 
           <ul className="task-list">
             {tasks.map((task) => (
               <li key={task.id} className="task-item">
                 <span>{task.text}</span>
+                <span className={`priority-badge priority-${task.priority.toLowerCase()}`}>
+                  {task.priority}
+                </span>
                 <button type="button" onClick={() => handleDeleteTask(task.id)}>
                   Eliminar
                 </button>
               </li>
             ))}
           </ul>
+          <p>Explicación de porque se tiene que usar el OnChange. React lo que hace es analizar value y si value es un valor fijo el input se queda bloqueado en ese valor sin importar que se escriba algo ahi asi que, para el cambio se necesita obligatoriamente el OnChange</p>
         </section>
         <section className="cards-grid">
           <Card title="Carta 1" text="Test" accent={true} link="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJKqD8E3AkhuTeZk4ouO1a4QLZ0iCLgrZpgxjJvkmcw&s=10" />
           <Card title="Carta 2" text="Test." accent={false} link="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQRR1mCrqQj6QdhQO8YP7Fu7C1iKczdVVpSzqtSKVEeg&s=10" />
-          <Card title="Carta 3" text="Test." accent={true} link="https://scontent.fbjx1-3.fna.fbcdn.net/v/t39.30808-6/509428479_742057525434100_4639794182002668899_n.jpg?stp=dst-jpg_tt6&cstp=mx768x960&ctp=p168x128&_nc_cat=111&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=lYNaCwZBL_oQ7kNvwF7svJD&_nc_oc=AdoEiSTfYzsEBV1fwRQb6xj2UUDAx2_Jq4tW7Kjwbd6G7sjk_rvH_KaLG9_iD6f21SG-mCZ9zRbdUAncJBvuTltI&_nc_zt=23&_nc_ht=scontent.fbjx1-3.fna&_nc_gid=Mwv8YqJcGyWvpA1HajAEjw&_nc_ss=7b289&oh=00_AQAQlWZs5gHSb4j5JIgSraslhy7u6agGsvfyVIDIqSdxDw&oe=6A66B33A"/>
+          <Card title="Carta 3" text="Test." accent={true} link="https://scontent.fbjx1-3.fna.fbcdn.net/v/t39.30808-6/509428479_742057525434100_4639794182002668899_n.jpg?stp=dst-jpg_tt6&cstp=mx768x960&ctp=p168x128&_nc_cat=111&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=lYNaCwZBL_oQ7kNvwF7svJD&_nc_oc=AdoEiSTfYzsEBV1fwRQb6xj2UUDAx2_Jq4tW7Kjwbd6G7sjk_rvH_KaLG9_iD6f21SG-mCZ9zRbdUAncJBvuTltI&_nc_zt=23&_nc_ht=scontent.fbjx1-3.fna&_nc_gid=Mwv8YqJcGyWvpA1HajAEjw&_nc_ss=7b289&oh=00_AQAQlWZs5gHSb4j5JIgSraslhy7u6agGsvfyVIDIqSdxDw&oe=6A66B33A" />
         </section>
         <p>Almacenadas en un contenedor como los que hicimos antes y es facil de añadir y entender todo.</p>
         <section id="HijosPadres">

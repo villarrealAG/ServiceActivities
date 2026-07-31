@@ -139,6 +139,14 @@ button{
   border-radius: 0.4rem;
 }
 
+.task-form select {
+  padding: 0.7rem 0.6rem;
+  border: 1px solid #d8cdb8;
+  border-radius: 0.4rem;
+  background: #fff;
+  cursor: pointer;
+}
+
 .task-list {
   list-style: none;
   padding: 0;
@@ -160,3 +168,17 @@ button{
 .task-item button {
   padding: 0.4rem 0.8rem;
 }
+
+/* Badges de prioridad */
+.priority-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.priority-alta  { background: #ffe4e4; color: #b91c1c; }
+.priority-media { background: #fef3c7; color: #92400e; }
+.priority-baja  { background: #d1fae5; color: #065f46; }
