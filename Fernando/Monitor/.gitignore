@@ -1,0 +1,28 @@
+# ── Node / Frontend ─────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# ── PHP / Backend ────────────────────────────────────────────
+backend/vendor/
+backend/.env
+
+# ── Python ───────────────────────────────────────────────────
+backend/scripts/__pycache__/
+backend/scripts/*.pyc
+*.pyc
+.venv/
+venv/
+
+# ── Base de datos ────────────────────────────────────────────
+*.sql.bak
+
+# ── IDEs / OS ────────────────────────────────────────────────
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
