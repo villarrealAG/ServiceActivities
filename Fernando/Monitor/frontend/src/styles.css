@@ -1,0 +1,41 @@
+:root {
+  font-family: 'Roboto', sans-serif;
+  color: #e2e8f0;
+  background: #0f172a;
+  font-synthesis: none;
+}
+
+body { background-image: linear-gradient(rgba(0, 0, 0, 0.85)), url(https://static0.thegamerimages.com/wordpress/wp-content/uploads/wm/2024/08/mixcollage-14-aug-2024-11-28-am-7971.jpg?w=1600&h=900&fit=crop);}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input { font: inherit; }
+
+.auth-page, .dashboard-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login-card, .dashboard-card {
+  overflow: auto;
+  width: min(100%, 38rem);
+  text-align: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid #636363;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1px);
+}
+
+.dashboard-card { width: min(100%, 38rem); }
+.eyebrow { margin: 0 0 0.25em; color: #ffffff; font-weight: 700; text-transform: uppercase; font-size: 1rem; letter-spacing: .08em; }
+h1 { margin: 0; color: #ffffff; }
+form { display: grid; gap: .65rem; margin-top: 1.5rem; }
+label { font-weight: 600; }
+input { width: 100%; padding: .7rem .8rem; color: #535b63; border: 1px solid #000000; border-radius: .5rem; background: #000000; }
+button { margin-top: .6rem; padding: .75rem 1rem; color: #ffffff; border: 0; border-radius: .5rem; background: #000000; cursor: pointer; font-weight: 700; }
+button:disabled { cursor: wait; opacity: .7; }
+.form-error { margin: .35rem 0 0; color: #dc1111; }
+a { color: #7dd3fc; }
