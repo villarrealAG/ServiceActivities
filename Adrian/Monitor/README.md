@@ -37,8 +37,8 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 
 ### Fase 1: Configuración de Base de Datos (Día 1)
 - [x] Crear y configurar la rama de trabajo principal (`feature/monitor-windows-ui`).
-- [ ] Adaptar el esquema relacional (`monitor_sistema.sql`) para admitir atributos de GPU (porcentaje de uso, temperatura).
-- [ ] Diseñar el modelo de datos para soportar el almacenamiento dinámico de múltiples discos físicos.
+- [x] Adaptar el esquema relacional (`monitor_sistema.sql`) para admitir atributos de GPU (porcentaje de uso, temperatura).
+- [x] Diseñar el modelo de datos para soportar el almacenamiento dinámico de múltiples discos físicos.
 
 ### Fase 2: Script Extractor de Datos (Día 2)
 - [ ] Programar la recolección periódica de métricas del hardware host mediante subprocesos y APIs del sistema operativo.

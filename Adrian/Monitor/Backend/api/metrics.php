@@ -15,7 +15,7 @@ $response = [
         "network_tx_kbps" => 0,
         "disks_info" => [] // Aquí irá el JSON parseado de la BD
     ],
-    "message" => "Esqueleto listo para conectar con super_monitor_hw"
+    "message" => "Esqueleto listo para conectar con monitor_hw"
 ];
 
 echo json_encode($response);
