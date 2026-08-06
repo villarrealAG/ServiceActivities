@@ -41,12 +41,13 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 - [x] Diseñar el modelo de datos para soportar el almacenamiento dinámico de múltiples discos físicos.
 
 ### Fase 2: Script Extractor de Datos (Día 2)
-- [ ] Programar la recolección periódica de métricas del hardware host mediante subprocesos y APIs del sistema operativo.
-- [ ] Investigar e implementar módulos de soporte para GPUs dedicadas (librerías `GPUtil` y `WMI`).
+- [x] Programar la recolección periódica de métricas del hardware host mediante subprocesos y APIs del sistema operativo.
+- [x] Investigar e implementar módulos de soporte para GPUs dedicadas (librerías `GPUtil` y `WMI`).
 
 ### Fase 3: API REST del Servidor (Día 3)
-- [ ] Implementar la API de PHP para encapsular las métricas consolidadas (CPU, RAM, Discos, Red y GPU).
-- [ ] Validar la serialización de respuestas a formato estándar JSON.
+- [x] Implementar la API de PHP para encapsular las métricas consolidadas (CPU, RAM, Discos, Red y GPU).
+- [x] Validar la serialización de respuestas a formato estándar JSON.
+- http://localhost/sistema-monitor/Backend/api/metrics.php
 
 ### Fase 4: Maquetado del Frontend (Día 4)
 - [ ] Configurar el andamiaje del cliente web empleando Vite y React.
@@ -73,3 +74,53 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 ### Fase 9: Despliegue e Informe Final (Día 9)
 - [ ] Consolidar los commits del código en la rama principal.
 - [ ] Finalizar la documentación técnica del sistema en este archivo `README.md` y preparar la entrega.
+
+---
+
+## Detalles de cada archivo
+
+A continuación se detalla el propósito, la estructura interna y la funcionalidad de cada uno de los archivos que integran el proyecto actualmente:
+
+### 1. Base de Datos: [127_0_0_1.sql](../ServiceActivities/Adrian/Monitor/Backend/127_0_0_1.sql)
+Este archivo contiene el script SQL para configurar e inicializar la base de datos relacional MySQL del sistema (`monitor_hw`). 
+
+- **Estructura y Tablas:**
+  - **`equipos`:** Almacena información básica de los dispositivos monitoreados. Campos: `id` (Clave Primaria), `nombre_pc`, `sistema_operativo` y `fecha_registro`. Posee un registro inicial para la computadora principal (`id = 1`).
+  - **`metricas_rendimiento`:** Tabla principal que recopila de manera histórica los datos de telemetría de hardware enviados por el agente. Registra:
+    - Uso de CPU en porcentaje (`uso_cpu`).
+    - Uso de memoria RAM en porcentaje (`uso_ram`) y en cantidad absoluta de Gigabytes utilizados (`ram_gb_usados`).
+    - Rendimiento gráfico en GPU: porcentaje de uso (`uso_gpu`) y temperatura en grados Celsius (`temp_gpu`).
+    - Tasas de transferencia de red en kilobits por segundo: bajada (`red_bajada_kbps`) y subida (`red_subida_kbps`).
+    - Información de almacenamiento estructurada (`info_discos`) en formato JSON, la cual almacena un mapeo dinámico de todas las unidades físicas y particiones detectadas junto con su porcentaje de ocupación individual.
+    - Timestamp de registro (`registrado_en`).
+
+---
+
+### 2. Agente de Monitoreo: [monitor.py](../ServiceActivities/Adrian/Monitor/Backend/scripts/monitor.py)
+Es un script ejecutable escrito en Python que actúa como demonio o servicio recolector en segundo plano. Se ejecuta de manera indefinida en la máquina objetivo para recopilar periódicamente métricas reales de hardware mediante APIs del sistema operativo.
+
+- **Características y Módulos Clave:**
+  - **`psutil`:** Utilizado para extraer estadísticas en tiempo real de la CPU, memoria RAM, discos montados y el tráfico por red.
+  - **`GPUtil`:** Módulo para la detección y recopilación de métricas de rendimiento en tarjetas gráficas dedicadas NVIDIA.
+  - **`mysql.connector`:** Interfaz nativa para establecer conexiones e insertar datos directamente en la base de datos local de MySQL.
+- **Lógica de Ejecución:**
+  - Se ejecuta en un bucle continuo configurado con intervalos de descanso de 2 segundos.
+  - Calcula dinámicamente las tasas de velocidad de red (descarga y carga en KB/s) comparando los contadores del sistema respecto al tiempo transcurrido desde la última consulta.
+  - Consulta y formatea todas las unidades de almacenamiento disponibles, convirtiendo la información a una cadena JSON limpia antes de guardarla.
+  - Realiza un redondeo de precisión a 2 decimales para homogeneizar los datos recolectados y los inserta en la tabla `metricas_rendimiento`.
+
+---
+
+### 3. API REST del Servidor: [metrics.php](../ServiceActivities/Adrian/Monitor/Backend/api/metrics.php)
+Es el backend escrito en PHP que sirve como interfaz o endpoint REST para exponer los datos estructurados en formato estándar JSON hacia el cliente web o frontend.
+
+- **Características Clave:**
+  - **Control de Acceso y CORS:** Define las cabeceras `Content-Type: application/json` y habilita solicitudes CORS de lectura (`Access-Control-Allow-Origin: *`, `Access-Control-Allow-Methods: GET`) para permitir peticiones seguras desde navegadores en cualquier origen.
+  - **Consultas con PDO:** Emplea la interfaz PDO para conectarse de forma eficiente al gestor de bases de datos. Realiza una consulta directa para obtener únicamente la métrica más reciente (`ORDER BY id DESC LIMIT 1`).
+  - **Manejo de Errores e Historiales Vacíos:** Estructura respuestas diferenciadas. Si la base de datos cuenta con registros, decodifica el objeto JSON de discos para integrarlo limpiamente en el JSON de respuesta. Si no hay datos, emite una advertencia controlada.
+  - **Manejo de Excepciones:** Si ocurre un error de conexión, captura la excepción `PDOException`, actualiza el estado HTTP de respuesta a `500 Internal Server Error` y retorna un JSON descriptivo con el problema.
+
+---
+
+### 4. Documentación: [README.md](../ServiceActivities/Adrian/Monitor/README.md)
+Es el archivo actual de documentación técnica. Detalla a grandes rasgos la arquitectura de tres capas del sistema, describe el plan de desarrollo de 9 días desglosado en tareas específicas completadas y pendientes, y describe en profundidad las funciones y conexiones de todos los componentes activos del proyecto.

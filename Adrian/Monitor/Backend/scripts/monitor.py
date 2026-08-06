@@ -1,5 +1,4 @@
 import psutil
-import psutil
 import time
 import json
 import subprocess
@@ -34,7 +33,7 @@ def obtener_datos_discos():
     """Retorna: JSON con discos (C:, D:, etc.)"""
     discos = {}
     for particion in psutil.disk_partitions():
-        if "cdrom" not in particion.opts or particion.fstype == '':
+        if "cdrom" in particion.opts or particion.fstype == '':
             continue
         try:
             uso = psutil.disk_usage(particion.mountpoint)
@@ -102,7 +101,7 @@ def recolectar_e_insertar():
             cursor.execute(consulta, valores)
             conexion.commit()
             
-            print(f"CPU: {uso_cpu}% | RAM: {round(ram_gb, 2)} GB | GPU: {round(uso_gpu, 2)}% | Red ↓: {round(red_bajada, 1)} KB/s")
+            print(f"CPU: {uso_cpu}% | RAM: {round(ram_gb, 2)} GB | GPU: {round(uso_gpu, 2)}% | Red Down: {round(red_bajada, 1)} KB/s")
 
     except Error as e:
         print(f"Error MySQL: {e}")
