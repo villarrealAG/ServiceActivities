@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.monitor-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* --- PANEL LATERAL --- */
+.sidebar {
+  width: 320px;
+  background-color: #202020;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.hardware-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+}
+
+.hardware-card {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.hardware-card:hover {
+  background-color: #2d2d2d;
+}
+
+.hardware-card.active {
+  background-color: #333333;
+  border-left: 3px solid #0078d7; /* Azul clásico de Windows */
+}
+
+/* Cascarón para las futuras gráficas pequeñas de Chart.js */
+.mini-graph-placeholder {
+  width: 60px;
+  height: 40px;
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  margin-right: 15px;
+  border-radius: 2px;
+}
+
+.hardware-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hardware-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.hardware-stats {
+  font-size: 0.8rem;
+  color: #aaaaaa;
+}
+
+/* --- PANEL CENTRAL --- */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #191919;
+}
+
+.main-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.main-graph-placeholder {
+  width: 100%;
+  height: 300px;
+  border: 1px dashed #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
