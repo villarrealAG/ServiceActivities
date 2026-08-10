@@ -12,6 +12,8 @@ import {
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useHosts } from '../context/HostContext.jsx'
+import HostSelector from '../components/HostSelector.jsx'
 import api from '../services/api.js'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
@@ -60,9 +62,9 @@ function CombinedChart({ samples }) {
   const data = {
     labels: samples.map(sample => new Date(`${sample.timestamp.replace(' ', 'T')}Z`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })),
     datasets: [
-      { label: 'CPU', data: samples.map(sample => sample.cpu), borderColor: '#38bdf8', tension: 0.3 },
-      { label: 'RAM', data: samples.map(sample => sample.ram), borderColor: '#a78bfa', tension: 0.3 },
-      { label: 'Disco', data: samples.map(sample => sample.disk), borderColor: '#34d399', tension: 0.3 },
+      { label: 'CPU', data: samples.map(sample => sample.cpu), borderColor: '#ef4444', tension: 0.3 },
+      { label: 'RAM', data: samples.map(sample => sample.ram), borderColor: '#3b82f6', tension: 0.3 },
+      { label: 'Disco', data: samples.map(sample => sample.disk), borderColor: '#22c55e', tension: 0.3 },
     ],
   }
 
@@ -77,11 +79,10 @@ function CombinedChart({ samples }) {
 export default function Dashboard() {
   const navigate = useNavigate()
   const { logout, user } = useAuth()
-  const [hosts, setHosts] = useState([])
-  const [hostId, setHostId] = useState('')
   const [samples, setSamples] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const { selectedHostId, isLoadingHosts, hostsError } = useHosts()
 
   const fetchMetrics = useCallback(async (id) => {
     if (!id) return
@@ -97,36 +98,17 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    let active = true
-    async function fetchHosts() {
-      try {
-        const { data } = await api.get('/api/hosts')
-        if (!active) return
-        setHosts(data)
-        setHostId(data[0] ? String(data[0].id) : '')
-        if (!data[0]) {
-          setError('No tienes hosts disponibles para monitorear.')
-          setIsLoading(false)
-        }
-      } catch (requestError) {
-        if (active) {
-          setError(requestError.response?.data?.error || 'No fue posible cargar los hosts.')
-          setIsLoading(false)
-        }
-      }
+    if (!selectedHostId) {
+      setSamples([])
+      setIsLoading(isLoadingHosts)
+      return
     }
-    fetchHosts()
-    return () => { active = false }
-  }, [])
-
-  useEffect(() => {
-    if (!hostId) return
     setSamples([])
     setIsLoading(true)
-    fetchMetrics(hostId)
-    const interval = window.setInterval(() => fetchMetrics(hostId), REFRESH_MS)
+    fetchMetrics(selectedHostId)
+    const interval = window.setInterval(() => fetchMetrics(selectedHostId), REFRESH_MS)
     return () => window.clearInterval(interval)
-  }, [hostId, fetchMetrics])
+  }, [selectedHostId, fetchMetrics, isLoadingHosts])
 
   async function handleLogout() {
     await logout()
@@ -141,14 +123,9 @@ export default function Dashboard() {
           <button type="button" className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
         </header>
 
-        <label className="host-selector">
-          Equipo a monitorear
-          <select value={hostId} onChange={event => setHostId(event.target.value)} disabled={!hosts.length}>
-            {hosts.map(host => <option key={host.id} value={host.id}>{host.name} {host.ip_address ? `(${host.ip_address})` : ''}</option>)}
-          </select>
-        </label>
+        <HostSelector />
 
-        {error && <p className="form-error" role="alert">{error}</p>}
+        {(error || hostsError) && <p className="form-error" role="alert">{error || hostsError}</p>}
         {isLoading && !samples.length ? <p className="dashboard-status">Obteniendo métricas…</p> : (
           <div className="charts-grid">
             <MetricChart label="CPU" color="#38bdf8" samples={samples} field="cpu" />
