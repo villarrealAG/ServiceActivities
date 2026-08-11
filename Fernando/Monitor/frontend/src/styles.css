@@ -32,6 +32,8 @@ button, input { font: inherit; }
 .dashboard-card { width: min(100%, 38rem); }
 .dashboard-card--wide { width: min(100%, 72rem); text-align: left; }
 .dashboard-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.dashboard-actions { display: flex; align-items: center; gap: .75rem; }
+.dashboard-actions button { margin-top: 0; }
 .logout-button { margin: 0; white-space: nowrap; }
 .host-selector { display: grid; gap: .45rem; max-width: 28rem; margin: 1.5rem 0; }
 select { width: 100%; padding: .7rem .8rem; color: #e2e8f0; border: 1px solid #636363; border-radius: .5rem; background: #0f172a; }
@@ -55,6 +57,7 @@ a { color: #7dd3fc; }
 
 @media (max-width: 760px) {
   .dashboard-header { align-items: flex-start; flex-direction: column; }
+  .dashboard-actions { width: 100%; flex-wrap: wrap; }
   .charts-grid { grid-template-columns: 1fr; }
   .metric-chart--wide { grid-column: auto; }
 }

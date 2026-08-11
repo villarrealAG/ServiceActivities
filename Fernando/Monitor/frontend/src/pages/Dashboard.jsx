@@ -81,6 +81,7 @@ export default function Dashboard() {
   const { logout, user } = useAuth()
   const [samples, setSamples] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isDownloadingReport, setIsDownloadingReport] = useState(false)
   const [error, setError] = useState('')
   const { selectedHostId, isLoadingHosts, hostsError } = useHosts()
 
@@ -115,12 +116,41 @@ export default function Dashboard() {
     navigate('/login', { replace: true })
   }
 
+  async function handleDownloadReport() {
+    if (!selectedHostId) return
+    setIsDownloadingReport(true)
+    setError('')
+    try {
+      const response = await api.get('/api/reports', {
+        params: { host_id: selectedHostId },
+        responseType: 'blob',
+      })
+      const downloadUrl = URL.createObjectURL(response.data)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+      link.download = `reporte-semanal-host-${selectedHostId}.txt`
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      URL.revokeObjectURL(downloadUrl)
+    } catch {
+      setError('No fue posible descargar el reporte.')
+    } finally {
+      setIsDownloadingReport(false)
+    }
+  }
+
   return (
     <main className="dashboard-page">
       <section className="dashboard-card dashboard-card--wide">
         <header className="dashboard-header">
           <div><p className="eyebrow">Monitor en vivo</p><h1>Bienvenido, {user.username}</h1></div>
-          <button type="button" className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
+          <div className="dashboard-actions">
+            <button type="button" onClick={handleDownloadReport} disabled={!selectedHostId || isDownloadingReport}>
+              {isDownloadingReport ? 'Generando reporte...' : 'Descargar reporte semanal'}
+            </button>
+            <button type="button" className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
+          </div>
         </header>
 
         <HostSelector />

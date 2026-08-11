@@ -1,6 +1,6 @@
 # Sistema Monitor de Recursos
 
-Monitor en tiempo real de **CPU, RAM y Disco** con historial, reportes PDF y permisos multi-host.
+Monitor en tiempo real de **CPU, RAM y Disco** con historial, reportes TXT descargables y permisos multi-host.
 
 ## Stack Tecnológico
 
@@ -67,7 +67,7 @@ Accede en: `http://localhost:5173`
 | Jue | 06 ago | Gráficas en vivo: Chart.js, CPU/RAM/Disco |
 | Vie | 07 ago | Gráfica combinada + Historial backend |
 | Lun | 10 ago | Frontend historial: fechas, filtros, gráfica |
-| Mar | 11 ago | PDF semanal: backend + frontend |
+| Mar | 11 ago | Reporte semanal TXT: backend + frontend |
 | Mié | 12 ago | Multi-host completo: selector, permisos |
 | Jue | 13 ago | Pulido, estilos, errores, pruebas |
 | Vie | 14 ago | Deploy, demo interno, entrega |
