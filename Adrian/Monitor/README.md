@@ -102,6 +102,7 @@ Es un script ejecutable escrito en Python que actúa como demonio o servicio rec
 - **Características y Módulos Clave:**
   - **`psutil`:** Utilizado para extraer estadísticas en tiempo real de la CPU, memoria RAM, discos montados y el tráfico por red.
   - **`GPUtil`:** Módulo para la detección y recopilación de métricas de rendimiento en tarjetas gráficas dedicadas NVIDIA.
+  - **Soporte de GPU AMD/Intel (Fallback Windows):** Incluye lógica de respaldo que emplea comandos de PowerShell (`Get-Counter`) para interrogar a los contadores de rendimiento nativos en Windows si no se detecta hardware compatible con NVIDIA, logrando compatibilidad cruzada de fabricantes.
   - **`mysql.connector`:** Interfaz nativa para establecer conexiones e insertar datos directamente en la base de datos local de MySQL.
 - **Lógica de Ejecución:**
   - Se ejecuta en un bucle continuo configurado con intervalos de descanso de 2 segundos.
@@ -130,8 +131,9 @@ Es el archivo de documentación técnica actual. Detalla la arquitectura de tres
 ### 5. Cliente Web (React): [App.jsx](../ServiceActivities/Adrian/Monitor/frontend/src/App.jsx)
 Representa la interfaz gráfica de usuario en modo oscuro que interactúa con el backend de forma asíncrona.
 - **Características Clave:**
-  - **Estado Local y Hooks (`useState`, `useEffect`):** Almacena de manera local la última métrica de CPU y RAM (`currentData`), y mantiene un arreglo histórico de las últimas 20 lecturas (`cpuHistory`, `ramHistory`) para construir la visualización temporal de las gráficas.
-  - **Visualización con Recharts:** Consume el componente `<LineChart>` y `<Line>` para renderizar gráficas de línea continua (tipo sparklines) para CPU y Memoria RAM, imitando los minigráficos del Administrador de Tareas.
+  - **Estado Local y Hooks (`useState`, `useEffect`):** Almacena de manera local la última métrica de CPU, RAM, GPU y Red (`currentData`), y mantiene un arreglo histórico de las últimas 20 lecturas (`cpuHistory`, `ramHistory`, `gpuHistory`, `netHistory`) para construir la visualización temporal de las gráficas.
+  - **Visualización con Recharts:** Consume el componente `<LineChart>` y `<Line>` para renderizar gráficas de línea continua (tipo sparklines) para CPU, Memoria, GPU y Red, imitando los minigráficos del Administrador de Tareas.
+  - **Eje Y y Dominio Dinámico:** Configurado para ajustar el dominio del eje Y dinámicamente (`['auto', 'auto']` para red y `[0, 100]` para porcentajes de hardware).
   - **Actualización Continua:** Hace uso de `setInterval` para consultar asíncronamente el backend cada 2000 ms, y limpia el temporizador durante el desmontaje del componente para evitar fugas de memoria.
 
 ---
@@ -192,3 +194,15 @@ Durante la fase de integración de los tres componentes (Python + PHP + React), 
   * Error ortográfico en el disparador del temporizador (`setIterval` en lugar de `setInterval`).
   * Declaración incompleta en la función de limpieza de la referencia del intervalo (`return (clearInterval(interval)`).
 * **Solución:** Se corrigieron todas las inconsistencias de código, implementando la llamada asíncrona de manera encapsulada y retornando una función flecha limpia en el cleanup de React (`return () => clearInterval(interval);`).
+
+### 5. Corrección de Selección y Gráfica de RAM (Memoria) y GPU
+* **Problema:** Había una discrepancia entre el estado que guardaba el componente seleccionado (los botones/tarjetas de la barra lateral establecían `'RAM'` y `'GPU)'` con un paréntesis de más en la clase activa), mientras que la lógica de renderizado y el gráfico principal en `App.jsx` esperaban los nombres `'Memoria'` y `'GPU'`. Esto impedía que se mostrara la gráfica principal de la RAM al hacer clic y que se aplicara el estilo activo a la tarjeta de la GPU.
+* **Solución:** Se homologaron los identificadores a `'Memoria'` y `'GPU'` de manera consistente en las tarjetas y la lógica de renderizado, y se eliminó el error tipográfico del paréntesis en el caso de la GPU.
+
+### 6. Prevención de Error Fatal (Pantalla Gris) en la Vista de Red
+* **Problema:** Al hacer clic en la tarjeta de Red, la aplicación web fallaba por completo a pantalla gris (`TypeError`). Esto ocurría porque en la sección de detalles inferiores se intentaba acceder a `currentData.net_rx.toFixed(1)` y `currentData.net_tx.toFixed(1)`, las cuales eran propiedades inexistentes (`undefined`). Además, el frontend buscaba las claves `data.net_down` y `data.net_up` en la respuesta de la API de PHP, mientras que esta devolvía `data.network_rx_kbps` y `data.network_tx_kbps`.
+* **Solución:** Se mapearon correctamente los campos de la API de PHP en `App.jsx` y se reemplazaron los accesos de `net_rx`/`net_tx` en la UI por las variables mapeadas `net_down`/`net_up`. Adicionalmente, se configuró el eje `<YAxis>` del gráfico principal para aceptar el dominio dinámico de la red (`yAxisDomain`), de manera que las unidades se adaptaran correctamente de 0-100 a escala automática.
+
+### 7. Soporte para Monitoreo de Gráficas AMD/Intel en Windows
+* **Problema:** El script de recolección de datos (`monitor.py`) utilizaba únicamente la biblioteca `GPUtil` para monitorear la tarjeta gráfica, la cual es compatible exclusivamente con hardware de NVIDIA. En equipos con tarjetas gráficas dedicadas de AMD o integradas de Intel, la GPU se reportaba de forma constante en `0%` de uso.
+* **Solución:** Se implementó un mecanismo de respaldo (fallback) en `monitor.py`. Si `GPUtil` no encuentra tarjetas compatibles y el sistema host es Windows, el script consulta de manera rápida el contador de rendimiento de la GPU en tiempo real (`\GPU Engine(*engtype_3D)\Utilization Percentage`) invocando a PowerShell a través del módulo `subprocess`. Se incluyó además una corrección regional para normalizar separadores decimales de coma a punto en sistemas configurados en idioma español.

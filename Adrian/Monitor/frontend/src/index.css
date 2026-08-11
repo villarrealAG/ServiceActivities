@@ -55,7 +55,7 @@ body {
 
 .hardware-card.active {
   background-color: #333333;
-  border-left: 3px solid #0078d7; /* Azul clásico de Windows */
+  border-left: 3px solid #0078d7; 
 }
 
 /* Cascarón para las futuras gráficas pequeñas de Chart.js */

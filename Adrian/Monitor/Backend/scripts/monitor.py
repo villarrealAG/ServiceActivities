@@ -22,11 +22,30 @@ last_time = time.time()
 
 def obtener_datos_gpu():
     """Retorna: (uso_gpu, temp_gpu)"""
+    # 1. Intentar con GPUtil (Nvidia)
     if HAS_GPUTIL:
-        gpus = GPUtil.getGPUs()
-        if gpus:
-            gpu = gpus[0]
-            return gpu.load * 100, gpu.temperature
+        try:
+            gpus = GPUtil.getGPUs()
+            if gpus:
+                gpu = gpus[0]
+                return gpu.load * 100, gpu.temperature
+        except Exception:
+            pass
+
+    # 2. Fallback para Windows (Nvidia/AMD/Intel general usando Performance Counters)
+    if platform.system() == "Windows":
+        try:
+            cmd = ["powershell", "-NoProfile", "-Command", "(((Get-Counter '\\GPU Engine(*engtype_3D)\\Utilization Percentage' -ErrorAction SilentlyContinue).CounterSamples | where CookedValue).CookedValue | measure -sum).sum"]
+            resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=3)
+            if resultado.returncode == 0:
+                salida = resultado.stdout.strip()
+                if salida:
+                    salida = salida.replace(",", ".")
+                    uso_gpu = float(salida)
+                    return uso_gpu, 0.0
+        except Exception as e:
+            print(f"Error al obtener GPU con PowerShell: {e}")
+            
     return 0.0, 0.0
 
 def obtener_datos_discos():
@@ -111,6 +130,6 @@ def recolectar_e_insertar():
             conexion.close()
 
 if __name__ == '__main__':
-    print("Súper Monitor extrayendo datos reales...")
+    print("extrayendo datos reales...")
     while True:
         recolectar_e_insertar()
