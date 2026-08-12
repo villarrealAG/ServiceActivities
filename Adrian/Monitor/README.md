@@ -26,7 +26,7 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 | **Día 4** | Frontend Setup | Maquetado inicial de la interfaz en React (Modo Oscuro) | Completado |
 | **-** | Descanso | Pausa programada de fin de semana | - |
 | **Día 5** | Integración de Gráficos | Implementación de minigráficas de rendimiento en tiempo real | Completado |
-| **Día 6** | Métricas de E/S | Despliegue de métricas de almacenamiento y red | Pendiente |
+| **Día 6** | Métricas de E/S | Despliegue de métricas de almacenamiento y red | Completado |
 | **Día 7** | Módulo de Históricos | Filtros y consultas por fecha en base de datos | Pendiente |
 | **Día 8** | Optimización | Pruebas de carga, estrés y rendimiento general | Pendiente |
 | **Día 9** | Despliegue | Cierre de documentación y despliegue final | Pendiente |
@@ -61,8 +61,9 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 - [x] Integrar librerías de gráficos (`Chart.js` o `Recharts`) para renderizar gráficos de líneas continuos y sin ejes, emulando la estética del Administrador de Tareas.
 
 ### Fase 6: Detalle de Almacenamiento y Conexiones (Día 6)
-- [ ] Validar y formatear la visualización de la memoria en unidades físicas reales (GB utilizados / GB totales).
-- [ ] Asegurar el cálculo dinámico del porcentaje de uso en los volúmenes de disco duro montados.
+- [x] Validar y formatear la visualización de la memoria en unidades físicas reales (GB utilizados / GB disponibles en detalles).
+- [x] Asegurar el cálculo dinámico del porcentaje de uso en los volúmenes de disco duro montados.
+- [x] Implementar la visualización del historial en gráficas separadas para cada unidad de almacenamiento detectada.
 
 ### Fase 7: Consulta de Históricos (Día 7)
 - [ ] Desarrollar un filtro temporal interactivo (selector de fechas) para consultar estados anteriores de hardware almacenados en la base de datos.
@@ -126,13 +127,11 @@ Es el backend escrito en PHP que sirve como interfaz o endpoint REST para expone
 ### 4. Documentación: [README.md](../ServiceActivities/Adrian/Monitor/README.md)
 Es el archivo de documentación técnica actual. Detalla la arquitectura de tres capas del sistema, describe el plan de desarrollo desglosado en actividades, y profundiza en las funciones y conexiones de todos los componentes activos del proyecto.
 
----
-
 ### 5. Cliente Web (React): [App.jsx](../ServiceActivities/Adrian/Monitor/frontend/src/App.jsx)
-Representa la interfaz gráfica de usuario en modo oscuro que interactúa con el backend de forma asíncrona.
+Este archivo representa la interfaz gráfica de usuario en modo oscuro que interactúa con el backend de forma asíncrona.
 - **Características Clave:**
-  - **Estado Local y Hooks (`useState`, `useEffect`):** Almacena de manera local la última métrica de CPU, RAM, GPU y Red (`currentData`), y mantiene un arreglo histórico de las últimas 20 lecturas (`cpuHistory`, `ramHistory`, `gpuHistory`, `netHistory`) para construir la visualización temporal de las gráficas.
-  - **Visualización con Recharts:** Consume el componente `<LineChart>` y `<Line>` para renderizar gráficas de línea continua (tipo sparklines) para CPU, Memoria, GPU y Red, imitando los minigráficos del Administrador de Tareas.
+  - **Estado Local y Hooks (`useState`, `useEffect`):** Almacena de manera local la última métrica de CPU, RAM, GPU, Red y almacenamiento (`currentData`), y mantiene un arreglo histórico de las últimas 20 lecturas (`cpuHistory`, `ramHistory`, `gpuHistory`, `netHistory`, y el objeto `diskHistory` mapeado por unidad) para construir la visualización temporal de las gráficas.
+  - **Visualización con Recharts:** Consume el componente `<LineChart>` y `<Line>` para renderizar gráficas de línea continua (tipo sparklines) para CPU, Memoria, GPU y Red, además de un grid responsivo con múltiples gráficos independientes para cada disco duro detectado.
   - **Eje Y y Dominio Dinámico:** Configurado para ajustar el dominio del eje Y dinámicamente (`['auto', 'auto']` para red y `[0, 100]` para porcentajes de hardware).
   - **Actualización Continua:** Hace uso de `setInterval` para consultar asíncronamente el backend cada 2000 ms, y limpia el temporizador durante el desmontaje del componente para evitar fugas de memoria.
 
@@ -206,3 +205,12 @@ Durante la fase de integración de los tres componentes (Python + PHP + React), 
 ### 7. Soporte para Monitoreo de Gráficas AMD/Intel en Windows
 * **Problema:** El script de recolección de datos (`monitor.py`) utilizaba únicamente la biblioteca `GPUtil` para monitorear la tarjeta gráfica, la cual es compatible exclusivamente con hardware de NVIDIA. En equipos con tarjetas gráficas dedicadas de AMD o integradas de Intel, la GPU se reportaba de forma constante en `0%` de uso.
 * **Solución:** Se implementó un mecanismo de respaldo (fallback) en `monitor.py`. Si `GPUtil` no encuentra tarjetas compatibles y el sistema host es Windows, el script consulta de manera rápida el contador de rendimiento de la GPU en tiempo real (`\GPU Engine(*engtype_3D)\Utilization Percentage`) invocando a PowerShell a través del módulo `subprocess`. Se incluyó además una corrección regional para normalizar separadores decimales de coma a punto en sistemas configurados en idioma español.
+
+### 8. Corrección de Pantalla Gris (Crash por datos de disco inexistentes)
+* **Problema:** Al iniciar el frontend, la pantalla se quedaba en gris (un crash runtime de React) porque al actualizar el estado (`setCurrentData`) tras realizar la petición REST a la API de PHP, se omitía la clave `disk`. Esto provocaba que `currentData.disk` pasara a ser `undefined` y, al intentar leer `currentData.disk['C:']`, causaba un error de tipo (`TypeError: Cannot read properties of undefined`). Además, la gráfica de disco mostraba una línea plana en 0% porque `diskHistory` nunca se actualizaba con datos reales del host.
+* **Solución:** Se incluyó el campo `disk` mapeando a `data.disks_info || {}` en la actualización de estado y se añadió la inicialización y empuje del historial del disco principal a `diskHistory`.
+
+### 9. Visualización Dinámica de Múltiples Gráficas de Disco
+* **Problema:** El sistema solo permitía visualizar la información y gráfica de un único disco (originalmente `C:`). Si el equipo monitoreado poseía múltiples particiones o unidades de disco montadas (como `D:`, `G:`, etc.), estas no se graficaban de forma individual.
+* **Solución:** Se reestructuró el estado `diskHistory` como un objeto que almacena un historial para cada volumen detectado y se actualizó la sección principal de **Disco** para renderizar dinámicamente un grid CSS responsivo de tarjetas, cada una conteniendo un gráfico de líneas independiente (`LineChart`) para cada unidad de almacenamiento detectada.
+* **Solución de error de inicialización:** Se reordenó la declaración de las variables dinámicas de discos (`diskKeys`, `mainDiskKey`, `currentDiskUsage`) antes de ser referenciadas por el bloque de renderizado/selección del gráfico principal de la app, resolviendo un error de inicialización temporal (`ReferenceError`).
