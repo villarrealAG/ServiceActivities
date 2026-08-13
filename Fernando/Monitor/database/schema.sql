@@ -22,7 +22,7 @@ CREATE TABLE hosts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ------------------------------------------------------------
+-- ------------------   ------------------------------------------
 -- Tabla: users
 -- Usuarios del sistema (admin o viewer)
 -- ------------------------------------------------------------

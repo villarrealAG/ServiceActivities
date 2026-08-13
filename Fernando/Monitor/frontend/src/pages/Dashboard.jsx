@@ -92,20 +92,39 @@ function CombinedChart({ samples, title = 'Uso combinado de recursos', isHistori
   )
 }
 
+function getLocalDateString() {
+  const d = new Date()
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function getErrorMessage(err, fallback = 'No fue posible conectar con el servidor.') {
+  if (!err) return fallback
+  if (err.response?.status === 401) return 'Sesión expirada. Por favor inicie sesión de nuevo.'
+  if (err.response?.data?.detail) return `${err.response.data.error || fallback}: ${err.response.data.detail}`
+  if (err.response?.data?.message) return `${err.response.data.error || fallback}: ${err.response.data.message}`
+  if (err.response?.data?.error) return err.response.data.error
+  if (err.message === 'Network Error') return 'Servidor PHP/XAMPP no alcanzable. Verifica que Apache y MySQL estén activos en XAMPP.'
+  return err.message || fallback
+}
+
 export default function Dashboard() {
   const navigate = useNavigate()
   const { logout, user } = useAuth()
-  const { selectedHostId, isLoadingHosts, hostsError } = useHosts()
+  const { selectedHostId, hosts, isLoadingHosts, hostsError } = useHosts()
+  const selectedHost = hosts.find(h => String(h.id) === String(selectedHostId))
 
   // Pestaña activa: 'live' | 'history'
   const [activeTab, setActiveTab] = useState('live')
 
-  // Estado para monitoreo en vivo
+  // Estado para monitoreo en vivo (lecturas acumuladas del día en el servidor)
   const [samples, setSamples] = useState([])
   const [isLoadingLive, setIsLoadingLive] = useState(true)
 
   // Estado para histórico
-  const todayStr = new Date().toISOString().split('T')[0]
+  const todayStr = getLocalDateString()
   const [fromDate, setFromDate] = useState(todayStr)
   const [toDate, setToDate] = useState(todayStr)
   const [historyData, setHistoryData] = useState([])
@@ -116,15 +135,23 @@ export default function Dashboard() {
   const [isDownloadingReport, setIsDownloadingReport] = useState(false)
   const [error, setError] = useState('')
 
-  // Carga métricas en tiempo real
-  const fetchMetrics = useCallback(async (id) => {
+  // Carga todas las lecturas registradas en la base de datos del servidor (últimas 24h)
+  const fetchLiveDayMetrics = useCallback(async (id) => {
     if (!id) return
     try {
-      const { data } = await api.get('/api/metrics', { params: { host_id: id } })
-      setSamples(current => [...current, data].slice(-MAX_SAMPLES))
+      // 1. Intentar capturar nueva métrica en tiempo real (si Python está activo)
+      try {
+        await api.get('/api/metrics', { params: { host_id: id } })
+      } catch (metricsError) {
+        console.warn('Captura en tiempo real no disponible:', metricsError)
+      }
+
+      // 2. Cargar el historial completo de lecturas almacenadas en el servidor
+      const { data } = await api.get('/api/history', { params: { host_id: id } })
+      setSamples(data.data || [])
       setError('')
     } catch (requestError) {
-      setError(requestError.response?.data?.error || 'No fue posible actualizar las métricas.')
+      setError(getErrorMessage(requestError, 'No fue posible cargar las métricas del servidor.'))
     } finally {
       setIsLoadingLive(false)
     }
@@ -144,13 +171,13 @@ export default function Dashboard() {
       setHistoryData(data.data || [])
       setHistorySearched(true)
     } catch (requestError) {
-      setError(requestError.response?.data?.error || 'No fue posible consultar el historial.')
+      setError(getErrorMessage(requestError, 'No fue posible consultar el historial.'))
     } finally {
       setIsLoadingHistory(false)
     }
   }, [selectedHostId, fromDate, toDate])
 
-  // Efecto para monitoreo en vivo
+  // Efecto para monitoreo en vivo (carga el acumulado del día directamente del servidor)
   useEffect(() => {
     if (activeTab !== 'live') return
     if (!selectedHostId) {
@@ -158,12 +185,16 @@ export default function Dashboard() {
       setIsLoadingLive(isLoadingHosts)
       return
     }
-    setSamples([])
+
     setIsLoadingLive(true)
-    fetchMetrics(selectedHostId)
-    const interval = window.setInterval(() => fetchMetrics(selectedHostId), REFRESH_MS)
+    fetchLiveDayMetrics(selectedHostId)
+
+    const interval = window.setInterval(() => {
+      fetchLiveDayMetrics(selectedHostId)
+    }, REFRESH_MS)
+
     return () => window.clearInterval(interval)
-  }, [selectedHostId, fetchMetrics, isLoadingHosts, activeTab])
+  }, [selectedHostId, fetchLiveDayMetrics, isLoadingHosts, activeTab])
 
   // Efecto cuando cambia de host en la pestaña de histórico
   useEffect(() => {
@@ -247,6 +278,12 @@ export default function Dashboard() {
 
         {(error || hostsError) && <p className="form-error" role="alert">{error || hostsError}</p>}
 
+        {selectedHost && !Number(selectedHost.is_active) && (
+          <div className="host-warning-banner" role="alert">
+            ⚠️ <span>El servidor <strong>{selectedHost.name}</strong> está marcado como <strong>INACTIVO</strong>. Es posible que no se estén recolectando métricas en tiempo real.</span>
+          </div>
+        )}
+
         {/* VISTA 1: MONITOREO EN VIVO */}
         {activeTab === 'live' && (
           <>
@@ -258,7 +295,7 @@ export default function Dashboard() {
                 <CombinedChart samples={samples} />
               </div>
             )}
-            <p className="dashboard-status">Actualización automática cada 10 segundos. Se muestran las últimas {MAX_SAMPLES} lecturas.</p>
+            <p className="dashboard-status">Actualización automática cada 10 segundos. Se muestran {samples.length} lecturas almacenadas en la base de datos.</p>
           </>
         )}
 

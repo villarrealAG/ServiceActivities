@@ -58,16 +58,32 @@ Accede en: `http://localhost:5173`
 | admin   | admin123  | Admin (todos los hosts) |
 | viewer1 | viewer123 | Viewer (solo Servidor Principal) |
 
-## Cronograma de desarrollo (Semana 1-2)
+## Cronograma de desarrollo (Semana 1-2) - 100% COMPLETADO ✅
 
-| Día | Fecha | Enfoque |
-|-----|-------|---------|
-| Mar | 04 ago | Setup: DB, Python, PHP Auth, React base |
-| Mié | 05 ago | Backend core: hosts, metrics, middleware |
-| Jue | 06 ago | Gráficas en vivo: Chart.js, CPU/RAM/Disco |
-| Vie | 07 ago | Gráfica combinada + Historial backend |
-| Lun | 10 ago | Frontend historial: fechas, filtros, gráfica |
-| Mar | 11 ago | Reporte semanal TXT: backend + frontend |
-| Mié | 12 ago | Multi-host completo: selector, permisos |
-| Jue | 13 ago | Pulido, estilos, errores, pruebas |
-| Vie | 14 ago | Deploy, demo interno, entrega |
+| Día | Fecha | Enfoque | Estado |
+|-----|-------|---------|--------|
+| Mar | 04 ago | Setup: DB, Python, PHP Auth, React base | ✅ Completado |
+| Mié | 05 ago | Backend core: hosts, metrics, middleware | ✅ Completado |
+| Jue | 06 ago | Gráficas en vivo: Chart.js, CPU/RAM/Disco | ✅ Completado |
+| Vie | 07 ago | Gráfica combinada + Historial backend | ✅ Completado |
+| Lun | 10 ago | Frontend historial: fechas, filtros, gráfica | ✅ Completado |
+| Mar | 11 ago | Reporte semanal TXT: backend + frontend | ✅ Completado |
+| Mié | 12 ago | Multi-host completo: selector, permisos | ✅ Completado |
+| Jue | 13 ago | Pulido, estilos, errores, pruebas | ✅ Completado |
+| Vie | 14 ago | Deploy, demo interno, entrega final | ✅ Completado |
+
+## Guía de Verificación y Demo Interna
+
+1. **Servicios Necesarios:**
+   - Iniciar Apache y MySQL en XAMPP.
+   - Ejecutar la base de datos `database/schema.sql`.
+   - Iniciar el agente en Python: `python backend/scripts/monitor.py --host-id=1`
+   - Iniciar el servidor Vite React: `npm run dev` en `frontend/`
+
+2. **Casos de Prueba:**
+   - **Login Admin (`admin` / `admin123`):** Acceso total a la lista completa de hosts (Servidor Principal, Estación Trabajo 1).
+   - **Login Viewer (`viewer1` / `viewer123`):** Acceso únicamente a los hosts asignados (Servidor Principal).
+   - **Monitoreo en vivo:** Actualización cada 10 segundos con gráficas individuales y combinada.
+   - **Histórico:** Filtrado por rango de fechas (Fecha Inicial - Fecha Final) con tarjetas de promedios de consumo.
+   - **Reporte TXT:** Descarga directa de archivo de resumen formateado por host.
+
