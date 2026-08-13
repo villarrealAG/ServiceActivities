@@ -27,7 +27,7 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 | **-** | Descanso | Pausa programada de fin de semana | - |
 | **Día 5** | Integración de Gráficos | Implementación de minigráficas de rendimiento en tiempo real | Completado |
 | **Día 6** | Métricas de E/S | Despliegue de métricas de almacenamiento y red | Completado |
-| **Día 7** | Módulo de Históricos | Filtros y consultas por fecha en base de datos | Pendiente |
+| **Día 7** | Módulo de Históricos | Filtros y consultas por fecha en base de datos | Completado |
 | **Día 8** | Optimización | Pruebas de carga, estrés y rendimiento general | Pendiente |
 | **Día 9** | Despliegue | Cierre de documentación y despliegue final | Pendiente |
 
@@ -66,7 +66,8 @@ A continuación se detalla la planificación y el estado del proyecto a lo largo
 - [x] Implementar la visualización del historial en gráficas separadas para cada unidad de almacenamiento detectada.
 
 ### Fase 7: Consulta de Históricos (Día 7)
-- [ ] Desarrollar un filtro temporal interactivo (selector de fechas) para consultar estados anteriores de hardware almacenados en la base de datos.
+- [x] Desarrollar un filtro temporal interactivo (selector de fechas) para consultar estados anteriores de hardware almacenados en la base de datos.
+- http://localhost/sistema-monitor/Backend/api/history.php
 
 ### Fase 8: Pruebas de Estrés y Diagnóstico (Día 8)
 - [ ] Someter el sistema a cargas elevadas de trabajo simuladas para comprobar la estabilidad de la recolección de datos.
@@ -113,14 +114,17 @@ Es un script ejecutable escrito en Python que actúa como demonio o servicio rec
 
 ---
 
-### 3. API REST del Servidor: [metrics.php](../ServiceActivities/Adrian/Monitor/Backend/api/metrics.php)
-Es el backend escrito en PHP que sirve como interfaz o endpoint REST para exponer los datos estructurados en formato estándar JSON hacia el cliente web o frontend.
+### 3. API REST del Servidor: [metrics.php](../ServiceActivities/Adrian/Monitor/Backend/api/metrics.php) y [history.php](../ServiceActivities/Adrian/Monitor/Backend/api/history.php)
+Estos archivos constituyen el backend escrito en PHP que expone los datos de hardware hacia el frontend mediante JSON:
 
-- **Características Clave:**
-  - **Control de Acceso y CORS:** Define las cabeceras `Content-Type: application/json` y habilita solicitudes CORS de lectura (`Access-Control-Allow-Origin: *`, `Access-Control-Allow-Methods: GET`) para permitir peticiones seguras desde navegadores en cualquier origen.
-  - **Consultas con PDO:** Emplea la interfaz PDO para conectarse de forma eficiente al gestor de bases de datos. Realiza una consulta directa para obtener únicamente la métrica más reciente (`ORDER BY id DESC LIMIT 1`).
-  - **Manejo de Errores e Historiales Vacíos:** Estructura respuestas diferenciadas. Si la base de datos cuenta con registros, decodifica el objeto JSON de discos para integrarlo limpiamente en el JSON de respuesta. Si no hay datos, emite una advertencia controlada.
-  - **Manejo de Excepciones:** Si ocurre un error de conexión, captura la excepción `PDOException`, actualiza el estado HTTP de respuesta a `500 Internal Server Error` y retorna un JSON descriptivo con el problema.
+- **metrics.php:**
+  - **Consultas con PDO:** Realiza una consulta directa para obtener únicamente la métrica de telemetría más reciente (`ORDER BY id DESC LIMIT 1`).
+  - **Mapeo de Datos:** Decodifica el objeto JSON de discos para integrarlo en la respuesta.
+- **history.php:**
+  - **Filtros Temporales:** Recibe parámetros de consulta GET `start` y `end` para retornar la colección histórica de registros dentro de ese rango, limitada a 200 filas.
+- **Características Comunes:**
+  - **CORS y Encabezados:** Ambos definen las cabeceras `Content-Type: application/json` y habilitan solicitudes CORS (`Access-Control-Allow-Origin: *`, `Access-Control-Allow-Methods: GET`).
+  - **Manejo de Errores:** Responden con estados estructurados y capturan excepciones de base de datos (`PDOException`), devolviendo códigos de respuesta HTTP correspondientes (p. ej., `500`).
 
 ---
 
@@ -130,10 +134,12 @@ Es el archivo de documentación técnica actual. Detalla la arquitectura de tres
 ### 5. Cliente Web (React): [App.jsx](../ServiceActivities/Adrian/Monitor/frontend/src/App.jsx)
 Este archivo representa la interfaz gráfica de usuario en modo oscuro que interactúa con el backend de forma asíncrona.
 - **Características Clave:**
-  - **Estado Local y Hooks (`useState`, `useEffect`):** Almacena de manera local la última métrica de CPU, RAM, GPU, Red y almacenamiento (`currentData`), y mantiene un arreglo histórico de las últimas 20 lecturas (`cpuHistory`, `ramHistory`, `gpuHistory`, `netHistory`, y el objeto `diskHistory` mapeado por unidad) para construir la visualización temporal de las gráficas.
-  - **Visualización con Recharts:** Consume el componente `<LineChart>` y `<Line>` para renderizar gráficas de línea continua (tipo sparklines) para CPU, Memoria, GPU y Red, además de un grid responsivo con múltiples gráficos independientes para cada disco duro detectado.
+  - **Estado Local y Hooks (`useState`, `useEffect`):** Almacena de manera local la última métrica de hardware y mantiene arreglos de históricos para renderizar los gráficos.
+  - **Modos de Visualización:**
+    - **En Vivo (Live):** Utiliza un temporizador (`setInterval`) para consultar `metrics.php` cada 2 segundos, desplazando los datos del gráfico para mostrar los últimos 20 puntos de lectura.
+    - **Historial (History):** Ejecuta una consulta única hacia `history.php` para un rango de fecha/hora dado y alimenta los gráficos con toda la serie temporal seleccionada.
+  - **Visualización con Recharts:** Consume el componente `<LineChart>` y `<Line>` para renderizar gráficos continuos para CPU, Memoria, GPU, Red y un grid responsivo con múltiples gráficos independientes para cada disco duro detectado.
   - **Eje Y y Dominio Dinámico:** Configurado para ajustar el dominio del eje Y dinámicamente (`['auto', 'auto']` para red y `[0, 100]` para porcentajes de hardware).
-  - **Actualización Continua:** Hace uso de `setInterval` para consultar asíncronamente el backend cada 2000 ms, y limpia el temporizador durante el desmontaje del componente para evitar fugas de memoria.
 
 ---
 
@@ -146,27 +152,34 @@ sequenceDiagram
     participant Hardware as Hardware del Sistema
     participant PythonAgent as Agente Python (monitor.py)
     participant Database as MySQL (monitor_hw)
-    participant PHPAPI as API REST PHP (metrics.php)
+    participant PHPAPI as API REST PHP (metrics.php/history.php)
     participant ReactApp as Cliente React (App.jsx)
 
-    loop Cada 2 segundos
+    loop Cada 2 segundos (Agente)
         PythonAgent->>Hardware: Obtiene métricas (psutil/GPUtil)
         PythonAgent->>Database: Registra telemetría (INSERT INTO)
     end
 
-    loop Cada 2 segundos
-        ReactApp->>PHPAPI: Petición GET (Axios)
-        PHPAPI->>Database: Consulta registro más reciente (LIMIT 1)
-        Database-->>PHPAPI: Retorna fila de telemetría
-        PHPAPI-->>ReactApp: Responde JSON estructurado
-        ReactApp->>ReactApp: Actualiza estado local e histológico
-        ReactApp->>ReactApp: Renderiza gráficas actualizadas
+    alt Modo En Vivo
+        loop Cada 2 segundos
+            ReactApp->>PHPAPI: Petición GET a metrics.php
+            PHPAPI->>Database: Consulta registro más reciente (LIMIT 1)
+            Database-->>PHPAPI: Retorna fila de telemetría
+            PHPAPI-->>ReactApp: Responde JSON estructurado
+            ReactApp->>ReactApp: Actualiza estado local y desplaza gráficos (últimos 20)
+        end
+    else Modo Historial
+        ReactApp->>PHPAPI: Petición GET a history.php?start=X&end=Y
+        PHPAPI->>Database: Consulta registros en rango BETWEEN
+        Database-->>PHPAPI: Retorna colección de registros
+        PHPAPI-->>ReactApp: Responde JSON con arreglo de datos
+        ReactApp->>ReactApp: Reemplaza gráficos con la serie histórica completa
     end
 ```
 
 1. **Adquisición e Inserción:** El agente extractor (`monitor.py`) en Python lee las estadísticas de hardware a través de llamadas de sistema (`psutil` y `GPUtil`), redondea la información y la inserta periódicamente cada 2 segundos en la base de datos MySQL local (`monitor_hw`).
-2. **Exposición del Endpoint:** El servidor web Apache (alojado a través de XAMPP en el puerto `80`) sirve el backend en PHP (`metrics.php`), el cual consulta de forma optimizada el registro de telemetría más reciente mediante PDO y lo expone formateado como JSON, aplicando las políticas de CORS necesarias.
-3. **Consumo y Renderizado:** El cliente React, que corre localmente mediante el servidor de desarrollo de Vite (puerto `5173`), consume asíncronamente este JSON en el endpoint de Apache (`http://localhost/sistema-monitor/Backend/api/metrics.php`), actualizando el estado del componente para redibujar la interfaz de usuario en tiempo real.
+2. **Exposición del Endpoint:** El servidor web Apache sirve el backend en PHP. `metrics.php` consulta mediante PDO el registro más reciente para monitoreo en tiempo real, mientras que `history.php` expone consultas parametrizadas para rangos históricos de telemetría.
+3. **Consumo y Renderizado:** El cliente React corre en el puerto `5173` y realiza peticiones REST a Apache. Actualiza dinámicamente los gráficos y vistas de rendimiento en base al modo activo (En Vivo o Historial) seleccionado por el usuario.
 
 ---
 
@@ -214,3 +227,7 @@ Durante la fase de integración de los tres componentes (Python + PHP + React), 
 * **Problema:** El sistema solo permitía visualizar la información y gráfica de un único disco (originalmente `C:`). Si el equipo monitoreado poseía múltiples particiones o unidades de disco montadas (como `D:`, `G:`, etc.), estas no se graficaban de forma individual.
 * **Solución:** Se reestructuró el estado `diskHistory` como un objeto que almacena un historial para cada volumen detectado y se actualizó la sección principal de **Disco** para renderizar dinámicamente un grid CSS responsivo de tarjetas, cada una conteniendo un gráfico de líneas independiente (`LineChart`) para cada unidad de almacenamiento detectada.
 * **Solución de error de inicialización:** Se reordenó la declaración de las variables dinámicas de discos (`diskKeys`, `mainDiskKey`, `currentDiskUsage`) antes de ser referenciadas por el bloque de renderizado/selección del gráfico principal de la app, resolviendo un error de inicialización temporal (`ReferenceError`).
+
+### 10. Integración del Módulo de Históricos y Selector de Fechas
+* **Problema:** En la integración de la consulta histórica, `App.jsx` presentaba errores de sintaxis (bloques `useEffect` mal formados) que impedían compilar la aplicación. Adicionalmente, las llamadas a API estaban invertidas: la consulta en tiempo real (`fetchLive`) intentaba usar erróneamente `history.php` que retorna un array, y la consulta de filtros de fecha apuntaba a `metrics.php` sin enviar parámetros. El historial de discos (`diskHistory`) también contenía referencias a la variable no definida `updated`.
+* **Solución:** Se corrigió la sintaxis de los efectos en React y se reestructuró la lógica para que `fetchLive` consuma `metrics.php` secuencialmente cada 2 segundos, y se creó la función `fetchHistory` que consume `history.php` enviando las fechas de inicio (`start`) y fin (`end`) formateadas de forma estándar. Se implementó una barra superior que permite alternar entre **En Vivo** e **Historial**, mostrando selectores de tipo `datetime-local` y aplicando estilos en modo oscuro.

@@ -24,12 +24,18 @@ function App() {
 
   const [selectedComponent, setSelectedComponent] = useState('CPU');
 
+  const [isLive, setIsLive] = useState(true);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [history, setHistory] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
+    let interval;
+    const fetchLive = async () => {
       try {
         const response = await axios.get('http://localhost/sistema-monitor/Backend/api/metrics.php');
         const data = response.data.data;
-
+        
         if (data) {
           setCurrentData({
             cpu: data.cpu_percent,
@@ -42,49 +48,119 @@ function App() {
             disk: data.disks_info || {}
           });
 
-          setCpuHistory(prev => {
-            const newHistory = [...prev.slice(1), { value: data.cpu_percent }];
-            return newHistory;
-          });
+          setCpuHistory(prev => [...prev.slice(-19), { value: data.cpu_percent, time: data.timestamp }]);
+          setRamHistory(prev => [...prev.slice(-19), { value: data.ram_percent, time: data.timestamp }]);
+          setGpuHistory(prev => [...prev.slice(-19), { value: data.gpu_percent, time: data.timestamp }]);
+          setNetHistory(prev => [...prev.slice(-19), { value: data.network_rx_kbps, time: data.timestamp }]);
 
-          setRamHistory(prev => {
-            const newHistory = [...prev.slice(1), { value: data.ram_percent }];
-            return newHistory;
-          });
-
-          setGpuHistory(prev => {
-            const newHistory = [...prev.slice(1), { value: data.gpu_percent }];
-            return newHistory;
-          });
-
-          setNetHistory(prev => {
-            const newHistory = [...prev.slice(1), { value: data.network_rx_kbps }];
-            return newHistory;
-          });
-
-          setDiskHistory(prev => {
+          setDiskHistory(prev => { 
             const newHistory = { ...prev };
-            const disks = data.disks_info || {};
-            Object.entries(disks).forEach(([diskName, usage]) => {
-              if (!newHistory[diskName]) {
-                newHistory[diskName] = Array(20).fill({ value: 0 });
-              }
-              newHistory[diskName] = [...newHistory[diskName].slice(1), { value: usage }];
+            Object.keys(data.disks_info || {}).forEach(diskName => {
+              const currentList = newHistory[diskName] || Array(20).fill({ value: 0 });
+              newHistory[diskName] = [...currentList.slice(-19), { value: data.disks_info[diskName], time: data.timestamp }];
             });
             return newHistory;
           });
         }
       } catch (error) {
-        console.error("Error al obtener datos: ", error);
+        console.error("Error al obtener datos en tiempo real: ", error);
       }
     };
 
-    fetchData();
-    const interval = setInterval(fetchData, 2000);
+    if (isLive) {
+      fetchLive();
+      interval = setInterval(fetchLive, 2000);
+    }
     return () => {
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
     };
-  }, []);
+  }, [isLive]);
+
+  useEffect(() => {
+    if (isLive) {
+      setCpuHistory(prev => {
+        const sliced = prev.slice(-20);
+        return sliced.length === 20 ? sliced : [...Array(20 - sliced.length).fill({ value: 0 }), ...sliced];
+      });
+      setRamHistory(prev => {
+        const sliced = prev.slice(-20);
+        return sliced.length === 20 ? sliced : [...Array(20 - sliced.length).fill({ value: 0 }), ...sliced];
+      });
+      setGpuHistory(prev => {
+        const sliced = prev.slice(-20);
+        return sliced.length === 20 ? sliced : [...Array(20 - sliced.length).fill({ value: 0 }), ...sliced];
+      });
+      setNetHistory(prev => {
+        const sliced = prev.slice(-20);
+        return sliced.length === 20 ? sliced : [...Array(20 - sliced.length).fill({ value: 0 }), ...sliced];
+      });
+      setDiskHistory(prev => {
+        const truncated = {};
+        Object.keys(prev).forEach(diskName => {
+          const sliced = prev[diskName].slice(-20);
+          truncated[diskName] = sliced.length === 20 ? sliced : [...Array(20 - sliced.length).fill({ value: 0 }), ...sliced];
+        });
+        return truncated;
+      });
+    }
+  }, [isLive]);
+
+  const fetchHistory = async () => {
+    if (!startDate || !endDate) {
+      alert("Seleccionar ambas fechas.");
+      return;
+    }
+    try {
+      const startFormatted = startDate.replace('T', ' ') + ':00';
+      const endFormatted = endDate.replace('T', ' ') + ':00';
+
+      const response = await axios.get(`http://localhost/sistema-monitor/Backend/api/history.php?start=${startFormatted}&end=${endFormatted}`);
+      const dataArray = response.data.data;
+
+      if (dataArray && Array.isArray(dataArray)) {
+        if (dataArray.length === 0) {
+          alert("No se encontraron registros en el rango de fechas seleccionado.");
+          return;
+        }
+
+        const cpuHist = dataArray.map(item => ({ value: item.cpu_percent, time: item.timestamp }));
+        const ramHist = dataArray.map(item => ({ value: item.ram_percent, time: item.timestamp }));
+        const gpuHist = dataArray.map(item => ({ value: item.gpu_percent, time: item.timestamp }));
+        const netHist = dataArray.map(item => ({ value: item.network_rx_kbps, time: item.timestamp }));
+
+        setCpuHistory(cpuHist);
+        setRamHistory(ramHist);
+        setGpuHistory(gpuHist);
+        setNetHistory(netHist);
+
+        const diskHist = {};
+        dataArray.forEach(item => {
+          const disks = item.disks_info || {};
+          Object.entries(disks).forEach(([diskName, usage]) => {
+            if (!diskHist[diskName]) {
+              diskHist[diskName] = [];
+            }
+            diskHist[diskName].push({ value: usage, time: item.timestamp });
+          });
+        });
+        setDiskHistory(diskHist);
+
+        const lastRecord = dataArray[dataArray.length - 1];
+        setCurrentData({
+          cpu: lastRecord.cpu_percent,
+          ram_percent: lastRecord.ram_percent,
+          ram_gb: lastRecord.ram_gb_usados,
+          gpu: lastRecord.gpu_percent,
+          gpu_temp: lastRecord.gpu_temp,
+          net_down: lastRecord.network_rx_kbps,
+          net_up: lastRecord.network_tx_kbps,
+          disk: lastRecord.disks_info || {}
+        });
+      }
+    } catch (error) {
+      console.error("Error al obtener histórico: ", error);
+    }
+  };
 
   const MiniGraph = ({ data, color }) => (
     <div className="mini-graph-placeholder" style={{ backgroundColor: '#111', padding: '2px' }}>
@@ -181,8 +257,51 @@ function App() {
         </div>
       </aside>
       
-<main className="main-content">
-        <h1>{selectedComponent}</h1>
+      <main className="main-content">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
+          <h1 style={{ margin: 0 }}>{selectedComponent}</h1>
+          
+          <div className="controls-bar" style={{ margin: 0 }}>
+            <button 
+              className={`control-btn ${isLive ? 'active' : ''}`} 
+              onClick={() => setIsLive(true)}
+            >
+              ● En Vivo
+            </button>
+            <button 
+              className={`control-btn ${!isLive ? 'active' : ''}`} 
+              onClick={() => setIsLive(false)}
+            >
+              Historial
+            </button>
+          </div>
+        </div>
+
+        {!isLive && (
+          <div className="controls-bar" style={{ marginTop: '-10px', marginBottom: '20px', justifyContent: 'flex-start' }}>
+            <div className="date-inputs">
+              <label>
+                Inicio:
+                <input 
+                  type="datetime-local" 
+                  value={startDate} 
+                  onChange={(e) => setStartDate(e.target.value)} 
+                />
+              </label>
+              <label>
+                Fin:
+                <input 
+                  type="datetime-local" 
+                  value={endDate} 
+                  onChange={(e) => setEndDate(e.target.value)} 
+                />
+              </label>
+              <button className="query-btn" onClick={fetchHistory}>
+                Consultar
+              </button>
+            </div>
+          </div>
+        )}
         
         {/* Gráficas Principales */}
         {selectedComponent === 'Disco' ? (

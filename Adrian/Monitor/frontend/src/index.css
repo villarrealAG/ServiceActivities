@@ -105,3 +105,87 @@ body {
   justify-content: center;
   color: #666;
 }
+
+/* --- CONTROLS BAR --- */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #202020;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
+.control-btn {
+  background-color: #2a2a2a;
+  color: #ccc;
+  border: 1px solid #444;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  background-color: #353535;
+  color: #fff;
+  border-color: #555;
+}
+
+.control-btn.active {
+  background-color: #0078d7;
+  color: #fff;
+  border-color: #0078d7;
+}
+
+.date-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.date-inputs label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #bbb;
+}
+
+.date-inputs input[type="datetime-local"] {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  outline: none;
+  font-size: 0.8rem;
+}
+
+.date-inputs input[type="datetime-local"]:focus {
+  border-color: #0078d7;
+}
+
+.query-btn {
+  background-color: #0078d7;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: background-color 0.2s;
+}
+
+.query-btn:hover {
+  background-color: #1f8ad2;
+}
+
+.query-btn:active {
+  background-color: #0060ad;
+}
