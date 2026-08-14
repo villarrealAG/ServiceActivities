@@ -1,12 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 export default function App() {
-  // Datos iniciales de prueba para maquetar la interfaz
-  const [data, setData] = useState([
-    { time: '12:00:00', cpu: 20, ram: 45, disk: 60 },
-    { time: '12:00:03', cpu: 35, ram: 48, disk: 60 },
-  ]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/current');
+        const metric = await res.json();
+        const time = new Date().toLocaleTimeString();
+
+        setData((prev) => {
+          const updated = [...prev, { ...metric, time }];
+          if (updated.length > 20) updated.shift(); // Mantener últimos 20 puntos
+          return updated;
+        });
+      } catch (err) {
+        console.error("Error al obtener datos:", err);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
