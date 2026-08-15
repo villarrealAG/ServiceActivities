@@ -1,0 +1,4 @@
+# requirements.txt — Dependencias Python para monitor.py
+# Instalar con: pip install -r requirements.txt
+
+psutil==6.1.1
