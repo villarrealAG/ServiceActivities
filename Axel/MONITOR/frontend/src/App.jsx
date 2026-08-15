@@ -3,8 +3,12 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 
 export default function App() {
   const [data, setData] = useState([]);
+  const [isHistory, setIsHistory] = useState(false);
 
+  // Polling en tiempo real
   useEffect(() => {
+    if (isHistory) return;
+
     const interval = setInterval(async () => {
       try {
         const res = await fetch('http://127.0.0.1:8000/api/current');
@@ -13,7 +17,7 @@ export default function App() {
 
         setData((prev) => {
           const updated = [...prev, { ...metric, time }];
-          if (updated.length > 20) updated.shift(); // Mantener últimos 20 puntos
+          if (updated.length > 20) updated.shift();
           return updated;
         });
       } catch (err) {
@@ -22,13 +26,37 @@ export default function App() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isHistory]);
+
+  // Cargar historial desde SQLite
+  const loadHistory = async () => {
+    try {
+      const res = await fetch('http://127.0.0.1:8000/api/history');
+      const historyData = await res.json();
+      
+      const formatted = historyData.map((item) => ({
+        ...item,
+        time: item.timestamp ? item.timestamp.split(' ')[1] : ''
+      }));
+
+      setData(formatted);
+      setIsHistory(true);
+    } catch (err) {
+      console.error("Error al cargar historial:", err);
+    }
+  };
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Dashboard de Monitoreo de Hardware</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Dashboard de Monitoreo de Hardware {isHistory ? '(Historial SQLite)' : '(En Vivo)'}</h1>
+        <div>
+          <button onClick={() => setIsHistory(false)} style={{ marginRight: '10px' }}>Ver En Vivo</button>
+          <button onClick={loadHistory}>Cargar Historial</button>
+        </div>
+      </div>
 
-      <div style={{ display: 'grid', gap: '20px' }}>
+      <div style={{ display: 'grid', gap: '20px', marginTop: '20px' }}>
         <div>
           <h3>Uso de CPU (%)</h3>
           <ResponsiveContainer width="100%" height={200}>
